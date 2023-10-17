@@ -15,5 +15,23 @@ public class SignInActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivitySignInBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        setListeners();
+    }
+
+    private void setListeners() {
+        binding.buttonLogin.setOnClickListener(v -> {
+            if(isValidSignIn()) {
+                signIn();
+            }
+        });
+    }
+
+    private void signIn() {
+
+    }
+
+    private boolean isValidSignIn() {
+        return true;
     }
 }
