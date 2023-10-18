@@ -17,4 +17,6 @@
     <string name="phone_number">Phone Number</string>
     <string name="enter_your_phone_number">Enter your phone number</string>
     <string name="already_have_an_account">Already have an account ?</string>
+    <string name="username">Username</string>
+    <string name="enter_your_username">Enter your username</string>
 </resources>
