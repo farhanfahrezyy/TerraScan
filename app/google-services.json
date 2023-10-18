@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "37053850575",
+    "project_id": "terrascan-15ee0",
+    "storage_bucket": "terrascan-15ee0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:37053850575:android:86ed6a5ffab3837bd768ba",
+        "android_client_info": {
+          "package_name": "com.example.terrascan"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBMyETUM4lK3-k3S10d22dTmB51IzSfEYo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
