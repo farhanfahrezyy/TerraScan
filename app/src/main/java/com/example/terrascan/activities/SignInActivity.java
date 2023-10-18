@@ -12,7 +12,7 @@ import com.example.terrascan.databinding.ActivitySignInBinding;
 
 public class SignInActivity extends AppCompatActivity {
 
-    ActivitySignInBinding binding;
+    private ActivitySignInBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -43,7 +43,29 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_30sdp"
+            android:layout_marginTop="@dimen/_12sdp"
+            android:text="@string/username"
+            android:textColor="@color/primary_60"
+            android:textSize="@dimen/_12sdp"
+            android:textStyle="bold"/>
+
+        <EditText
+            android:id="@+id/inputUsername"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:padding="@dimen/_10sdp"
+            android:background="@drawable/edit_text_background"
+            android:hint="@string/enter_your_username"
+            android:textColorHint="@color/neutral_40"
+            android:inputType="text"
+            android:imeOptions="actionNext"
+            android:importantForAutofill="no"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_12sdp"
             android:text="@string/email"
             android:textColor="@color/primary_60"
             android:textSize="@dimen/_12sdp"
@@ -65,7 +87,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_15sdp"
+            android:layout_marginTop="@dimen/_12sdp"
             android:text="@string/phone_number"
             android:textColor="@color/primary_60"
             android:textSize="@dimen/_12sdp"
@@ -87,7 +109,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_15sdp"
+            android:layout_marginTop="@dimen/_12sdp"
             android:text="@string/password"
             android:textColor="@color/primary_60"
             android:textSize="@dimen/_12sdp"
@@ -130,7 +152,7 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_40sdp"
+            android:layout_marginTop="@dimen/_20sdp"
             android:animateLayoutChanges="true">
 
             <com.google.android.material.button.MaterialButton
@@ -157,7 +179,7 @@
             android:id="@+id/layoutSignIn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_15sdp"
             android:layout_gravity="center_horizontal"
             android:orientation="horizontal">
 
