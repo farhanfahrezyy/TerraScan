@@ -3,6 +3,6 @@
     <style name="Theme.TerraScan" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="colorPrimary">@color/primary_60</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor">@color/white</item>
+        <item name="android:statusBarColor">@color/neutral_40</item>
     </style>
 </resources>
