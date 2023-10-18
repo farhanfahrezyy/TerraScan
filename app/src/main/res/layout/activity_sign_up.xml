@@ -19,21 +19,23 @@
             android:id="@+id/logoImage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/terrascan_logo" />
+            android:src="@drawable/terrascan_logo"
+            android:contentDescription="@string/logo_image" />
 
         <TextView
             android:id="@+id/header_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Create an account"
+            android:text="@string/create_an_account"
             android:textStyle="bold"
             android:textSize="@dimen/_20sdp"
             android:textColor="@color/black" />
+
         <TextView
             android:id="@+id/header_title_signup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Connect with your friends today!!"
+            android:text="@string/connect_with_your_friends_today"
             android:textStyle="bold"
             android:textSize="@dimen/_13sdp"
             android:textColor="@color/neutral_40" />
@@ -42,105 +44,88 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_30sdp"
-            android:text="Email"
+            android:text="@string/email"
             android:textColor="@color/primary_60"
             android:textSize="@dimen/_12sdp"
             android:textStyle="bold"/>
 
         <EditText
             android:id="@+id/inputEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_8sdp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:padding="@dimen/_10sdp"
-            android:inputType="textEmailAddress"
-            android:hint="Enter your email"
+            android:background="@drawable/edit_text_background"
+            android:hint="@string/enter_your_email"
             android:textColorHint="@color/neutral_40"
-            android:background="@drawable/edit_text_background"/>
+            android:inputType="textEmailAddress"
+            android:imeOptions="actionNext"
+            android:importantForAutofill="no"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_15sdp"
-            android:text="Phone Number"
+            android:text="@string/phone_number"
+            android:textColor="@color/primary_60"
+            android:textSize="@dimen/_12sdp"
+            android:textStyle="bold"/>
+
+        <EditText
+            android:id="@+id/inputPhoneNumber"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:padding="@dimen/_10sdp"
+            android:background="@drawable/edit_text_background"
+            android:hint="@string/enter_your_phone_number"
+            android:textColorHint="@color/neutral_40"
+            android:inputType="phone"
+            android:imeOptions="actionDone"
+            android:importantForAutofill="no"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:text="@string/password"
             android:textColor="@color/primary_60"
             android:textSize="@dimen/_12sdp"
             android:textStyle="bold"/>
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/layoutPhoneNumber"
+            android:id="@+id/layoutPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
             <EditText
-                android:id="@+id/inputPhoneNumber"
-                android:layout_marginTop="@dimen/_8sdp"
+                android:id="@+id/inputPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
                 android:padding="@dimen/_10sdp"
-                android:inputType="phone"
-                android:hint="Enter your phone number"
-                android:textColorHint="@color/neutral_40"
                 android:background="@drawable/edit_text_background"
-                app:layout_constraintTop_toTopOf="@id/layoutPhoneNumber"
-                app:layout_constraintBottom_toBottomOf="@id/layoutPhoneNumber" />
-
-            <ImageButton
-                android:id="@+id/togglePassword2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_eye"
-                android:layout_marginEnd="@dimen/_10sdp"
-                app:layout_constraintStart_toStartOf="@id/inputPhoneNumber"
-                app:layout_constraintTop_toTopOf="@+id/inputPhoneNumber"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                app:layout_constraintBottom_toBottomOf="@id/inputPhoneNumber"/>
-
-
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_15sdp"
-            android:text="Password"
-            android:textColor="@color/primary_60"
-            android:textSize="@dimen/_12sdp"
-            android:textStyle="bold"/>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/layoutPasswordSignUp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <EditText
-                android:id="@+id/inputPasswordSignUp"
-                android:layout_marginTop="@dimen/_8sdp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/_10sdp"
+                android:hint="@string/enter_your_password"
+                android:textColorHint="@color/neutral_40"
                 android:inputType="textPassword"
-                android:hint="Enter your Password"
-                android:textColorHint="@color/neutral_40"
-                android:background="@drawable/edit_text_background"
-                app:layout_constraintTop_toTopOf="@id/layoutPasswordSignUp"
-                app:layout_constraintBottom_toBottomOf="@id/layoutPasswordSignUp" />
+                android:imeOptions="actionDone"
+                android:importantForAutofill="no"
+                app:layout_constraintTop_toTopOf="@id/layoutPassword"
+                app:layout_constraintBottom_toBottomOf="@id/layoutPassword" />
 
             <ImageButton
-                android:id="@+id/togglePasswordSignUp"
+                android:id="@+id/togglePassword"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_eye"
                 android:layout_marginEnd="@dimen/_10sdp"
-                app:layout_constraintEnd_toEndOf="@+id/inputPasswordSignUp"
-                app:layout_constraintTop_toTopOf="@+id/inputPasswordSignUp"
+                android:src="@drawable/ic_eye"
                 android:background="?attr/selectableItemBackgroundBorderless"
-                app:layout_constraintBottom_toBottomOf="@id/inputPasswordSignUp"/>
-
-
+                app:layout_constraintEnd_toEndOf="@+id/inputPassword"
+                app:layout_constraintTop_toTopOf="@+id/inputPassword"
+                app:layout_constraintBottom_toBottomOf="@id/inputPassword"
+                android:contentDescription="@string/toggle_eye"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/buttonSignUp"
@@ -148,24 +133,24 @@
             android:layout_height="@dimen/_45sdp"
             android:layout_marginTop="@dimen/_40sdp"
             android:backgroundTint="@color/primary_90"
-            android:text="Sign Up"
             app:cornerRadius="@dimen/_8sdp"
+            android:text="@string/sign_up"
             android:textStyle="bold"
             android:textSize="@dimen/_12sdp"
             android:textColor="@color/white"/>
-
 
         <LinearLayout
             android:id="@+id/layoutSignUp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:layout_marginTop="@dimen/_20sdp"
-            android:layout_gravity="center_horizontal|bottom">
+            android:layout_gravity="center_horizontal"
+            android:orientation="horizontal">
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Already have an account ?"
+                android:text="@string/already_have_an_account"
                 android:textStyle="bold"
                 android:textSize="@dimen/_12sdp"
                 android:textColor="@color/neutral_40"/>
@@ -173,16 +158,14 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Login "
+                android:layout_marginStart="@dimen/_4sdp"
+                android:text="@string/login"
                 android:textStyle="bold"
                 android:textSize="@dimen/_12sdp"
-                android:textColor="@color/primary_60"
-                />
+                android:textColor="@color/primary_60"/>
+
         </LinearLayout>
+
     </LinearLayout>
-
-
-
-
 
 </ScrollView>
