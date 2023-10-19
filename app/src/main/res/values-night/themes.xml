@@ -4,5 +4,6 @@
         <item name="colorPrimary">@color/primary_60</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor">@color/neutral_40</item>
+        <item name="android:windowAnimationStyle">@null</item>
     </style>
 </resources>
