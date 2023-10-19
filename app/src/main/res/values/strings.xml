@@ -19,4 +19,11 @@
     <string name="already_have_an_account">Already have an account ?</string>
     <string name="username">Username</string>
     <string name="enter_your_username">Enter your username</string>
+    <string name="default_image_profile">Default Image Profile</string>
+    <string name="logo_text">Logo Text</string>
+    <string name="main_background">Main Background</string>
+    <string name="button_scan">Button Scan</string>
+    <string name="button_profile">Button Profile</string>
+    <string name="button_home">Button Home</string>
+    <string name="supportview_for_scan_icon">supportView for scan icon</string>
 </resources>
