@@ -7,60 +7,136 @@
     tools:context=".activities.HomeActivity">
 
     <ImageView
+        android:id="@+id/mainBackground"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:src="@drawable/bg_main"
+        android:adjustViewBounds="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:adjustViewBounds="true"/>
+        android:contentDescription="@string/main_background" />
 
     <ImageView
+        android:id="@+id/title_text"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/_22sdp"
-        android:adjustViewBounds="true"
         android:layout_marginTop="@dimen/_22sdp"
         android:layout_marginStart="@dimen/_16sdp"
-        android:src="@drawable/terrascanm"
+        android:adjustViewBounds="true"
+        android:src="@drawable/terrascan_logo_text"
         app:tint="@color/white"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="@string/logo_text" />
 
     <FrameLayout
+        android:id="@+id/layoutImage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_12sdp"
+        android:layout_marginEnd="@dimen/_16sdp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <com.makeramen.roundedimageview.RoundedImageView
-            android:layout_width="@dimen/_40sdp"
-            android:layout_height="@dimen/_40sdp"
-            android:background="@color/neutral_30"
-            android:src="@drawable/ic_profile"
-            app:tint="@color/neutral_60"
+            android:id="@+id/imageProfile"
+            android:layout_width="@dimen/_45sdp"
+            android:layout_height="@dimen/_45sdp"
+            android:background="@drawable/bg_profile"
             android:scaleType="centerCrop"
             app:riv_oval="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
 
+        <ImageView
+            android:id="@+id/defaultProfile"
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_40sdp"
+            android:src="@drawable/ic_profile"
+            app:tint="@color/neutral_60"
+            android:layout_gravity="center"
+            android:contentDescription="@string/default_image_profile" />
+
     </FrameLayout>
 
-
-    <ImageView
-        android:id="@+id/supporterView"
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/title_highlightProduct"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/_25sdp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/bottomNavbar"/>
+        android:layout_marginTop="@dimen/_22sdp"
+        android:layout_marginStart="@dimen/_16sdp"
+        android:layout_marginBottom="@dimen/_8sdp"
+        android:text="Highlight Product"
+        android:textSize="@dimen/_18sdp"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toTopOf="@id/higlightProduct"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <HorizontalScrollView
+        android:id="@+id/higlightProduct"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_22sdp"
+        android:layout_marginBottom="@dimen/_12sdp"
+        android:overScrollMode="never"
+        android:scrollbars="none"
+        app:layout_constraintBottom_toTopOf="@id/supporterView"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="@dimen/_100sdp"
+                android:layout_height="@dimen/_150sdp"
+                android:layout_marginStart="@dimen/_16sdp"
+                android:layout_marginEnd="@dimen/_15sdp"
+                android:background="@drawable/bg_product"/>
+
+            <ImageView
+                android:layout_width="@dimen/_100sdp"
+                android:layout_height="@dimen/_150sdp"
+                android:layout_marginEnd="@dimen/_15sdp"
+                android:background="@drawable/bg_product"/>
+
+            <ImageView
+                android:layout_width="@dimen/_100sdp"
+                android:layout_height="@dimen/_150sdp"
+                android:layout_marginEnd="@dimen/_15sdp"
+                android:background="@drawable/bg_product"/>
+
+            <ImageView
+                android:layout_width="@dimen/_100sdp"
+                android:layout_height="@dimen/_150sdp"
+                android:layout_marginEnd="@dimen/_15sdp"
+                android:background="@drawable/bg_product"/>
+
+            <ImageView
+                android:layout_width="@dimen/_100sdp"
+                android:layout_height="@dimen/_150sdp"
+                android:layout_marginEnd="@dimen/_15sdp"
+                android:background="@drawable/bg_product"/>
+
+            <ImageView
+                android:layout_width="@dimen/_100sdp"
+                android:layout_height="@dimen/_150sdp"
+                android:layout_marginEnd="@dimen/_16sdp"
+                android:background="@drawable/bg_product"/>
+
+        </LinearLayout>
+
+    </HorizontalScrollView>
 
     <RelativeLayout
         android:id="@+id/bottomNavbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:background="@drawable/bottomnav_background"
+        android:background="@drawable/bg_bottomnavbar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
@@ -73,7 +149,8 @@
             android:src="@drawable/ic_home"
             android:background="?attr/selectableItemBackgroundBorderless"
             app:tint="@color/primary_90"
-            android:layout_alignParentStart="true"/>
+            android:layout_alignParentStart="true"
+            android:contentDescription="@string/button_home" />
 
         <ImageButton
             android:id="@+id/profileButton"
@@ -83,11 +160,23 @@
             android:src="@drawable/ic_profile"
             android:background="?attr/selectableItemBackgroundBorderless"
             app:tint="@color/primary_90"
-            android:layout_alignParentEnd="true"/>
+            android:layout_alignParentEnd="true"
+            android:contentDescription="@string/button_profile" />
 
     </RelativeLayout>
 
+    <ImageView
+        android:id="@+id/supporterView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/_25sdp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/bottomNavbar"
+        android:contentDescription="@string/supportview_for_scan_icon" />
+
     <ImageButton
+        android:id="@+id/scanButton"
         android:layout_width="@dimen/_50sdp"
         android:layout_height="@dimen/_50sdp"
         android:src="@drawable/ic_scan"
@@ -95,6 +184,7 @@
         app:tint="@color/white"
         app:layout_constraintTop_toBottomOf="@id/supporterView"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        android:contentDescription="@string/button_scan" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
