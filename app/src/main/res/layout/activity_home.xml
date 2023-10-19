@@ -16,6 +16,37 @@
         android:adjustViewBounds="true"/>
 
     <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/_22sdp"
+        android:adjustViewBounds="true"
+        android:layout_marginTop="@dimen/_22sdp"
+        android:layout_marginStart="@dimen/_16sdp"
+        android:src="@drawable/terrascanm"
+        app:tint="@color/white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_40sdp"
+            android:background="@color/neutral_30"
+            android:src="@drawable/ic_profile"
+            app:tint="@color/neutral_60"
+            android:scaleType="centerCrop"
+            app:riv_oval="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+    </FrameLayout>
+
+
+    <ImageView
         android:id="@+id/supporterView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
