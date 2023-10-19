@@ -60,6 +60,126 @@
 
     </FrameLayout>
 
+    <com.denzcoskun.imageslider.ImageSlider
+        android:id="@+id/imageSlider"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_120sdp"
+        android:layout_marginTop="@dimen/_22sdp"
+        android:layout_marginStart="@dimen/_16sdp"
+        android:layout_marginEnd="@dimen/_16sdp"
+        app:iss_auto_cycle="true"
+        app:iss_delay="0"
+        app:iss_period="3000"
+        app:iss_placeholder="@color/black"
+        app:iss_error_image="@color/lightRed"
+        app:iss_corner_radius="20"
+        app:layout_constraintTop_toBottomOf="@id/layoutImage"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_22sdp"
+        android:layout_marginStart="@dimen/_16sdp"
+        android:layout_marginEnd="@dimen/_16sdp"
+        android:background="@drawable/bg_mainnavbar"
+        android:paddingBottom="@dimen/_8sdp"
+        app:layout_constraintTop_toBottomOf="@id/imageSlider"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/community"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+            <ImageView
+                android:layout_width="@dimen/_50sdp"
+                android:layout_height="@dimen/_50sdp"
+                android:padding="@dimen/_8sdp"
+                android:src="@drawable/ic_community"
+                android:background="@drawable/bg_product"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Community"
+                android:textSize="@dimen/_12ssp"
+                android:textColor="@color/black"
+                android:textStyle="bold"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/product"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+            <ImageView
+                android:layout_width="@dimen/_50sdp"
+                android:layout_height="@dimen/_50sdp"
+                android:padding="@dimen/_8sdp"
+                android:src="@drawable/ic_product"
+                android:background="@drawable/bg_product"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Product"
+                android:textSize="@dimen/_12ssp"
+                android:textColor="@color/black"
+                android:textStyle="bold"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/learn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+            <ImageView
+                android:layout_width="@dimen/_50sdp"
+                android:layout_height="@dimen/_50sdp"
+                android:padding="@dimen/_8sdp"
+                android:src="@drawable/ic_learn"
+                android:background="@drawable/bg_product"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Learn"
+                android:textSize="@dimen/_12ssp"
+                android:textColor="@color/black"
+                android:textStyle="bold"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/saved"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+            <ImageView
+                android:layout_width="@dimen/_50sdp"
+                android:layout_height="@dimen/_50sdp"
+                android:padding="@dimen/_8sdp"
+                android:src="@drawable/ic_saved"
+                android:background="@drawable/bg_product"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Saved"
+                android:textSize="@dimen/_12ssp"
+                android:textColor="@color/black"
+                android:textStyle="bold"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
     <TextView
         android:id="@+id/title_highlightProduct"
         android:layout_width="wrap_content"
@@ -68,7 +188,7 @@
         android:layout_marginStart="@dimen/_16sdp"
         android:layout_marginBottom="@dimen/_8sdp"
         android:text="Highlight Product"
-        android:textSize="@dimen/_18sdp"
+        android:textSize="@dimen/_18ssp"
         android:textStyle="bold"
         android:textColor="@color/black"
         app:layout_constraintBottom_toTopOf="@id/higlightProduct"
