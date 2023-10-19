@@ -28,9 +28,9 @@ public class HomeActivity extends AppCompatActivity {
 
     private void imageSlider() {
         List<SlideModel> slideModels = new ArrayList<>();
-        slideModels.add(new SlideModel("https://picsum.photos/id/870/200/300?grayscale&blur=2", "", ScaleTypes.FIT));
-        slideModels.add(new SlideModel("https://picsum.photos/200/300/?blur=2", "", ScaleTypes.FIT));
-        slideModels.add(new SlideModel("https://picsum.photos/200/300?grayscale", "", ScaleTypes.FIT));
+        slideModels.add(new SlideModel("https://picsum.photos/id/870/200/300?grayscale&blur=2", null, ScaleTypes.FIT));
+        slideModels.add(new SlideModel("https://picsum.photos/200/300/?blur=2", null, ScaleTypes.FIT));
+        slideModels.add(new SlideModel("https://picsum.photos/200/300?grayscale", null, ScaleTypes.FIT));
 
         binding.imageSlider.setImageList(slideModels);
     }
