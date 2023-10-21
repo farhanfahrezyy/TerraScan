@@ -7,37 +7,28 @@
     tools:context=".activities.HomeActivity">
 
     <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:src="@drawable/bg_green"
-        app:layout_constraintTop_toTopOf="parent"/>
-
-    <ImageView
         android:id="@+id/mainBackground"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:adjustViewBounds="true"
-        android:contentDescription="@string/main_background"
         android:src="@drawable/bg_main"
-        app:layout_goneMarginTop="0dp"
+        android:adjustViewBounds="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-
-        />
+        android:contentDescription="@string/main_background" />
 
     <ImageView
         android:id="@+id/title_text"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/_22sdp"
-        android:layout_marginStart="@dimen/_16sdp"
         android:layout_marginTop="@dimen/_22sdp"
+        android:layout_marginStart="@dimen/_16sdp"
         android:adjustViewBounds="true"
-        android:contentDescription="@string/logo_text"
         android:src="@drawable/terrascan_logo_text"
+        app:tint="@color/white"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:tint="@color/white" />
+        android:contentDescription="@string/logo_text" />
 
     <FrameLayout
         android:id="@+id/layoutImage"
@@ -54,18 +45,9 @@
             android:layout_height="@dimen/_45sdp"
             android:background="@drawable/bg_profile"
             android:scaleType="centerCrop"
+            app:riv_oval="true"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:riv_oval="true" />
-
-        <ImageView
-            android:id="@+id/defaultProfile"
-            android:layout_width="@dimen/_40sdp"
-            android:layout_height="@dimen/_40sdp"
-            android:layout_gravity="center"
-            android:contentDescription="@string/default_image_profile"
-            android:src="@drawable/ic_profile"
-            app:tint="@color/neutral_60" />
+            app:layout_constraintTop_toTopOf="parent"/>
 
     </FrameLayout>
 
@@ -73,54 +55,52 @@
         android:id="@+id/imageSlider"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_120sdp"
-        android:layout_marginStart="@dimen/_16sdp"
         android:layout_marginTop="@dimen/_22sdp"
+        android:layout_marginStart="@dimen/_16sdp"
         android:layout_marginEnd="@dimen/_16sdp"
         app:iss_auto_cycle="true"
-        app:iss_corner_radius="20"
         app:iss_delay="0"
-        app:iss_error_image="@color/lightRed"
         app:iss_period="3000"
-        app:iss_placeholder="@color/black"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:iss_placeholder="@color/white"
+        app:iss_error_image="@color/lightRed"
+        app:iss_corner_radius="20"
+        app:layout_constraintTop_toBottomOf="@id/layoutImage"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/layoutImage" />
+        app:layout_constraintEnd_toEndOf="parent"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/_16sdp"
         android:layout_marginTop="@dimen/_22sdp"
+        android:layout_marginStart="@dimen/_16sdp"
         android:layout_marginEnd="@dimen/_16sdp"
         android:background="@drawable/bg_mainnavbar"
-        android:orientation="horizontal"
         android:paddingBottom="@dimen/_8sdp"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/imageSlider"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/imageSlider">
+        app:layout_constraintEnd_toEndOf="parent"
+        android:orientation="horizontal">
 
         <LinearLayout
             android:id="@+id/community"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
-
+            android:orientation="vertical"
+            android:gravity="center">
             <ImageView
                 android:layout_width="@dimen/_50sdp"
                 android:layout_height="@dimen/_50sdp"
-                android:background="@drawable/bg_product"
                 android:padding="@dimen/_8sdp"
-                android:src="@drawable/ic_community" />
-
+                android:src="@drawable/ic_community"
+                android:background="@drawable/bg_product"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Community"
-                android:textColor="@color/black"
                 android:textSize="@dimen/_12ssp"
-                android:textStyle="bold" />
+                android:textColor="@color/black"
+                android:textStyle="bold"/>
         </LinearLayout>
 
         <LinearLayout
@@ -128,23 +108,21 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
-
+            android:orientation="vertical"
+            android:gravity="center">
             <ImageView
                 android:layout_width="@dimen/_50sdp"
                 android:layout_height="@dimen/_50sdp"
-                android:background="@drawable/bg_product"
                 android:padding="@dimen/_8sdp"
-                android:src="@drawable/ic_product" />
-
+                android:src="@drawable/ic_product"
+                android:background="@drawable/bg_product"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Product"
-                android:textColor="@color/black"
                 android:textSize="@dimen/_12ssp"
-                android:textStyle="bold" />
+                android:textColor="@color/black"
+                android:textStyle="bold"/>
         </LinearLayout>
 
         <LinearLayout
@@ -152,23 +130,21 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
-
+            android:orientation="vertical"
+            android:gravity="center">
             <ImageView
                 android:layout_width="@dimen/_50sdp"
                 android:layout_height="@dimen/_50sdp"
-                android:background="@drawable/bg_product"
                 android:padding="@dimen/_8sdp"
-                android:src="@drawable/ic_learn" />
-
+                android:src="@drawable/ic_learn"
+                android:background="@drawable/bg_product"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Learn"
-                android:textColor="@color/black"
                 android:textSize="@dimen/_12ssp"
-                android:textStyle="bold" />
+                android:textColor="@color/black"
+                android:textStyle="bold"/>
         </LinearLayout>
 
         <LinearLayout
@@ -176,23 +152,21 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
-
+            android:orientation="vertical"
+            android:gravity="center">
             <ImageView
                 android:layout_width="@dimen/_50sdp"
                 android:layout_height="@dimen/_50sdp"
-                android:background="@drawable/bg_product"
                 android:padding="@dimen/_8sdp"
-                android:src="@drawable/ic_saved" />
-
+                android:src="@drawable/ic_saved"
+                android:background="@drawable/bg_product"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Saved"
-                android:textColor="@color/black"
                 android:textSize="@dimen/_12ssp"
-                android:textStyle="bold" />
+                android:textColor="@color/black"
+                android:textStyle="bold"/>
         </LinearLayout>
 
     </LinearLayout>
@@ -201,15 +175,15 @@
         android:id="@+id/title_highlightProduct"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/_16sdp"
         android:layout_marginTop="@dimen/_22sdp"
+        android:layout_marginStart="@dimen/_16sdp"
         android:layout_marginBottom="@dimen/_8sdp"
         android:text="Highlight Product"
-        android:textColor="@color/black"
         android:textSize="@dimen/_18ssp"
         android:textStyle="bold"
+        android:textColor="@color/black"
         app:layout_constraintBottom_toTopOf="@id/higlightProduct"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"/>
 
     <HorizontalScrollView
         android:id="@+id/higlightProduct"
@@ -232,37 +206,37 @@
                 android:layout_height="@dimen/_150sdp"
                 android:layout_marginStart="@dimen/_16sdp"
                 android:layout_marginEnd="@dimen/_15sdp"
-                android:background="@drawable/bg_product" />
+                android:background="@drawable/bg_product"/>
 
             <ImageView
                 android:layout_width="@dimen/_100sdp"
                 android:layout_height="@dimen/_150sdp"
                 android:layout_marginEnd="@dimen/_15sdp"
-                android:background="@drawable/bg_product" />
+                android:background="@drawable/bg_product"/>
 
             <ImageView
                 android:layout_width="@dimen/_100sdp"
                 android:layout_height="@dimen/_150sdp"
                 android:layout_marginEnd="@dimen/_15sdp"
-                android:background="@drawable/bg_product" />
+                android:background="@drawable/bg_product"/>
 
             <ImageView
                 android:layout_width="@dimen/_100sdp"
                 android:layout_height="@dimen/_150sdp"
                 android:layout_marginEnd="@dimen/_15sdp"
-                android:background="@drawable/bg_product" />
+                android:background="@drawable/bg_product"/>
 
             <ImageView
                 android:layout_width="@dimen/_100sdp"
                 android:layout_height="@dimen/_150sdp"
                 android:layout_marginEnd="@dimen/_15sdp"
-                android:background="@drawable/bg_product" />
+                android:background="@drawable/bg_product"/>
 
             <ImageView
                 android:layout_width="@dimen/_100sdp"
                 android:layout_height="@dimen/_150sdp"
                 android:layout_marginEnd="@dimen/_16sdp"
-                android:background="@drawable/bg_product" />
+                android:background="@drawable/bg_product"/>
 
         </LinearLayout>
 
@@ -272,33 +246,33 @@
         android:id="@+id/bottomNavbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/bg_bottomnavbar"
         android:orientation="horizontal"
+        android:background="@drawable/bg_bottomnavbar"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
         <ImageButton
             android:id="@+id/homeButton"
             android:layout_width="@dimen/_60sdp"
             android:layout_height="@dimen/_60sdp"
-            android:layout_alignParentStart="true"
             android:layout_marginStart="@dimen/_35sdp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="@string/button_home"
             android:src="@drawable/ic_home"
-            app:tint="@color/primary_90" />
+            android:background="?attr/selectableItemBackgroundBorderless"
+            app:tint="@color/primary_90"
+            android:layout_alignParentStart="true"
+            android:contentDescription="@string/button_home" />
 
         <ImageButton
             android:id="@+id/profileButton"
             android:layout_width="@dimen/_60sdp"
             android:layout_height="@dimen/_60sdp"
-            android:layout_alignParentEnd="true"
             android:layout_marginEnd="@dimen/_35sdp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="@string/button_profile"
             android:src="@drawable/ic_profile"
-            app:tint="@color/primary_90" />
+            android:background="?attr/selectableItemBackgroundBorderless"
+            app:tint="@color/primary_90"
+            android:layout_alignParentEnd="true"
+            android:contentDescription="@string/button_profile" />
 
     </RelativeLayout>
 
@@ -307,21 +281,21 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/_25sdp"
-        android:contentDescription="@string/supportview_for_scan_icon"
-        app:layout_constraintBottom_toTopOf="@id/bottomNavbar"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintBottom_toTopOf="@id/bottomNavbar"
+        android:contentDescription="@string/supportview_for_scan_icon" />
 
     <ImageButton
         android:id="@+id/scanButton"
         android:layout_width="@dimen/_50sdp"
         android:layout_height="@dimen/_50sdp"
-        android:background="@drawable/scan_background"
-        android:contentDescription="@string/button_scan"
         android:src="@drawable/ic_scan"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:background="@drawable/scan_background"
+        app:tint="@color/white"
         app:layout_constraintTop_toBottomOf="@id/supporterView"
-        app:tint="@color/white" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:contentDescription="@string/button_scan" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

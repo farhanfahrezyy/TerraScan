@@ -70,15 +70,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
 
-        <ImageView
-            android:id="@+id/defaultProfile"
-            android:layout_width="@dimen/_60sdp"
-            android:layout_height="@dimen/_60sdp"
-            android:src="@drawable/ic_profile"
-            app:tint="@color/neutral_60"
-            android:layout_gravity="center"
-            android:contentDescription="@string/default_image_profile" />
-
     </FrameLayout>
 
     <RelativeLayout
