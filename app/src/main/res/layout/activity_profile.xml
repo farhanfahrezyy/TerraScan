@@ -7,11 +7,6 @@
     tools:context=".activities.ProfileActivity">
     <!--Background Main-->
     <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:src="@drawable/bg_green"
-        app:layout_constraintTop_toTopOf="parent"/>
-    <ImageView
         android:id="@+id/mainBackground"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -11,6 +11,7 @@ import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Base64;
 import android.util.Patterns;
 import android.view.View;
@@ -24,11 +25,13 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.io.ByteArrayOutputStream;
 import java.util.HashMap;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class SignUpActivity extends AppCompatActivity {
     private ActivitySignUpBinding binding;
     private PreferenceManager preferenceManager;
     private String encodedImage;
+    private AtomicBoolean isPasswordVisible;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,11 +40,14 @@ public class SignUpActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         preferenceManager = new PreferenceManager(getApplicationContext());
+        isPasswordVisible = new AtomicBoolean(false);
         getEncodedProfile();
         setListeners();
     }
 
     private void setListeners() {
+        binding.togglePassword.setOnClickListener(v -> togglePassword());
+
         binding.layoutSignIn.setOnClickListener(v ->
                 startActivity(new Intent(getApplicationContext(), SignInActivity.class)));
 
@@ -50,6 +56,15 @@ public class SignUpActivity extends AppCompatActivity {
                 signUp();
             }
         });
+    }
+
+    private void togglePassword() {
+        isPasswordVisible.set(!isPasswordVisible.get());
+        if (isPasswordVisible.get()) {
+            binding.inputPassword.setInputType(InputType.TYPE_CLASS_TEXT);
+        } else {
+            binding.inputPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        }
     }
 
     private void getEncodedProfile() {
