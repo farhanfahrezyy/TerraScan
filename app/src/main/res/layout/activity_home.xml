@@ -49,15 +49,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
 
-        <ImageView
-            android:id="@+id/defaultProfile"
-            android:layout_width="@dimen/_40sdp"
-            android:layout_height="@dimen/_40sdp"
-            android:src="@drawable/ic_profile"
-            app:tint="@color/neutral_60"
-            android:layout_gravity="center"
-            android:contentDescription="@string/default_image_profile" />
-
     </FrameLayout>
 
     <com.denzcoskun.imageslider.ImageSlider
@@ -285,10 +276,10 @@
 
     </RelativeLayout>
 
-    <ImageView
+    <View
         android:id="@+id/supporterView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="1dp"
         android:layout_marginBottom="@dimen/_25sdp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

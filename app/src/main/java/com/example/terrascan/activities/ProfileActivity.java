@@ -34,7 +34,7 @@ public class ProfileActivity extends AppCompatActivity {
     private void setListeners() {
         binding.homeButton.setOnClickListener(v -> {
             Intent i = new Intent(getApplicationContext(), HomeActivity.class);
-            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(i);
             finish();
         });
