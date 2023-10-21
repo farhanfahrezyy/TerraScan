@@ -108,8 +108,8 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             if (chatMessage.messageType.equals(Constants.KEY_MESSAGE_TYPE_IMAGE)) {
                 byte[] bytes = Base64.decode(chatMessage.encodeImage, Base64.DEFAULT);
                 Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                binding.imageMessage.setImageBitmap(bitmap);
-                binding.imageMessage.setVisibility(View.VISIBLE);
+                binding.sentImageMessage.setImageBitmap(bitmap);
+                binding.sentImageMessage.setVisibility(View.VISIBLE);
                 if(chatMessage.message.isEmpty()) {
                     binding.textMessage.setVisibility(View.GONE);
                 } else {
@@ -120,11 +120,10 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             } else if(chatMessage.messageType.equals(Constants.KEY_MESSAGE_TYPE_VIDEO)) {
                 videoUrl = chatMessage.videoUrl;
                 MediaMetadataRetriever mediaMetadataRetriever = new MediaMetadataRetriever();
-                mediaMetadataRetriever .setDataSource(videoUrl, new HashMap<>());
+                mediaMetadataRetriever.setDataSource(videoUrl, new HashMap<>());
                 Bitmap bmFrame = mediaMetadataRetriever.getFrameAtTime(0);
-                videoUrl = chatMessage.videoUrl;
-                binding.videoMessage.setImageBitmap(bmFrame);
-                binding.videoMessage.setVisibility(View.VISIBLE);
+                binding.sentVideoMessage.setImageBitmap(bmFrame);
+                binding.sentVideoMessage.setVisibility(View.VISIBLE);
                 binding.playButton.setVisibility(View.VISIBLE);
                 if(chatMessage.message.isEmpty()) {
                     binding.textMessage.setVisibility(View.GONE);
@@ -138,7 +137,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 binding.textDateTime.setText(chatMessage.dateTime);
             }
 
-            binding.imageMessage.setOnClickListener(v -> {
+            binding.sentImageMessage.setOnClickListener(v -> {
                 Dialog dialog = new Dialog(v.getContext());
                 dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                 dialog.setContentView(R.layout.dialog_image_preview);
@@ -150,7 +149,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 dialog.show();
             });
 
-            binding.videoMessage.setOnClickListener(v -> {
+            binding.sentVideoMessage.setOnClickListener(v -> {
                 Uri videoUri = Uri.parse(videoUrl);
                 showVideoDialog(v.getContext(), videoUri);
             });
@@ -242,45 +241,42 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         void setData(ChatMessage chatMessage) {
             binding.senderUsename.setText(chatMessage.senderUsername);
-            if(!chatMessage.profileImage.isEmpty()){
-                byte[] bytes = Base64.decode(chatMessage.profileImage, Base64.DEFAULT);
-                Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                binding.senderProfile.setImageBitmap(bitmap);
-            }
-            if (chatMessage.messageType.equals(Constants.KEY_MESSAGE_TYPE_IMAGE) && chatMessage.message.isEmpty()) {
+            byte[] profileBytes = Base64.decode(chatMessage.profileImage, Base64.DEFAULT);
+            Bitmap profileBitmap = BitmapFactory.decodeByteArray(profileBytes, 0, profileBytes.length);
+            binding.senderProfile.setImageBitmap(profileBitmap);
+            if (chatMessage.messageType.equals(Constants.KEY_MESSAGE_TYPE_IMAGE)) {
                 byte[] bytes = Base64.decode(chatMessage.encodeImage, Base64.DEFAULT);
                 Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                binding.imageMessage.setImageBitmap(bitmap);
-                binding.imageMessage.setVisibility(View.VISIBLE);
-//                binding.textMessage.setVisibility(View.GONE);
-                binding.textDateTime.setText(chatMessage.dateTime);
-            } else if(chatMessage.messageType.equals(Constants.KEY_MESSAGE_TYPE_IMAGE)) {
-                byte[] bytes = Base64.decode(chatMessage.encodeImage, Base64.DEFAULT);
-                Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                binding.imageMessage.setImageBitmap(bitmap);
-                binding.imageMessage.setVisibility(View.VISIBLE);
-                binding.textMessage.setText(chatMessage.message);
-                binding.textMessage.setVisibility(View.VISIBLE);
+                binding.receivedImageMessage.setImageBitmap(bitmap);
+                binding.receivedImageMessage.setVisibility(View.VISIBLE);
+                if(chatMessage.message.isEmpty()) {
+                    binding.textMessage.setVisibility(View.GONE);
+                } else {
+                    binding.textMessage.setText(chatMessage.message);
+                    binding.textMessage.setVisibility(View.VISIBLE);
+                }
                 binding.textDateTime.setText(chatMessage.dateTime);
             } else if(chatMessage.messageType.equals(Constants.KEY_MESSAGE_TYPE_VIDEO)) {
                 videoUrl = chatMessage.videoUrl;
                 MediaMetadataRetriever mediaMetadataRetriever = new MediaMetadataRetriever();
-                mediaMetadataRetriever .setDataSource(videoUrl, new HashMap<>());
+                mediaMetadataRetriever.setDataSource(videoUrl, new HashMap<>());
                 Bitmap bmFrame = mediaMetadataRetriever.getFrameAtTime(0);
-//                videoUrl = chatMessage.videoUrl;
-//                binding.imageMessage.setVisibility(View.GONE);
-//                binding.textMessage.setVisibility(View.GONE);
-                binding.videoMessage.setImageBitmap(bmFrame);
-                binding.videoMessage.setVisibility(View.VISIBLE);
+                binding.receivedVideoMessage.setImageBitmap(bmFrame);
+                binding.receivedVideoMessage.setVisibility(View.VISIBLE);
                 binding.playButton.setVisibility(View.VISIBLE);
+                if(chatMessage.message.isEmpty()) {
+                    binding.textMessage.setVisibility(View.GONE);
+                } else {
+                    binding.textMessage.setText(chatMessage.message);
+                    binding.textMessage.setVisibility(View.VISIBLE);
+                }
             } else {
-                binding.imageMessage.setVisibility(View.GONE);
                 binding.textMessage.setText(chatMessage.message);
                 binding.textMessage.setVisibility(View.VISIBLE);
                 binding.textDateTime.setText(chatMessage.dateTime);
             }
 
-            binding.imageMessage.setOnClickListener(v -> {
+            binding.receivedImageMessage.setOnClickListener(v -> {
                 Dialog dialog = new Dialog(v.getContext());
                 dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                 dialog.setContentView(R.layout.dialog_image_preview);
@@ -292,7 +288,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 dialog.show();
             });
 
-            binding.videoMessage.setOnClickListener(v -> {
+            binding.receivedVideoMessage.setOnClickListener(v -> {
                 Uri videoUri = Uri.parse(videoUrl);
                 showVideoDialog(v.getContext(), videoUri);
             });

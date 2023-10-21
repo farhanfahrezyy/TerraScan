@@ -7,7 +7,7 @@
     android:padding="@dimen/_4sdp">
 
     <ImageView
-        android:id="@+id/imageMessage"
+        android:id="@+id/sentImageMessage"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@drawable/background_sent_message"
@@ -23,7 +23,7 @@
         app:layout_constraintWidth_percent="0.8" />
 
     <ImageView
-        android:id="@+id/videoMessage"
+        android:id="@+id/sentVideoMessage"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@drawable/background_sent_message"
@@ -31,8 +31,6 @@
         android:paddingTop="@dimen/_8sdp"
         android:paddingEnd="@dimen/_12sdp"
         android:paddingBottom="@dimen/_8sdp"
-        app:layout_constraintWidth_max="wrap"
-        android:textSize="@dimen/_13ssp"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -44,10 +42,10 @@
         android:layout_height="wrap_content"
         android:src="@android:drawable/ic_media_play"
         android:visibility="gone"
-        app:layout_constraintStart_toStartOf="@id/videoMessage"
-        app:layout_constraintEnd_toEndOf="@id/videoMessage"
-        app:layout_constraintTop_toTopOf="@id/videoMessage"
-        app:layout_constraintBottom_toBottomOf="@id/videoMessage"/>
+        app:layout_constraintStart_toStartOf="@id/sentVideoMessage"
+        app:layout_constraintEnd_toEndOf="@id/sentVideoMessage"
+        app:layout_constraintTop_toTopOf="@id/sentVideoMessage"
+        app:layout_constraintBottom_toBottomOf="@id/sentVideoMessage"/>
 
     <TextView
         android:id="@+id/textMessage"
@@ -63,7 +61,7 @@
         android:textSize="@dimen/_13ssp"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/imageMessage"
+        app:layout_constraintTop_toBottomOf="@id/sentImageMessage"
         app:layout_constraintWidth_percent="0.8"/>
 
     <TextView

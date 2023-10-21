@@ -26,7 +26,7 @@
         app:layout_constraintTop_toTopOf="parent"/>
 
     <ImageView
-        android:id="@+id/imageMessage"
+        android:id="@+id/receivedImageMessage"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/_4sdp"
@@ -43,7 +43,7 @@
         app:layout_constraintWidth_percent="0.75" />
 
     <ImageView
-        android:id="@+id/videoMessage"
+        android:id="@+id/receivedVideoMessage"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/_4sdp"
@@ -52,7 +52,6 @@
         android:paddingTop="@dimen/_8sdp"
         android:paddingEnd="@dimen/_12sdp"
         android:paddingBottom="@dimen/_8sdp"
-        app:layout_constraintWidth_max="wrap"
         android:textSize="@dimen/_13ssp"
         android:visibility="gone"
         app:layout_constraintStart_toEndOf="@id/senderProfile"
@@ -65,10 +64,10 @@
         android:layout_height="wrap_content"
         android:src="@android:drawable/ic_media_play"
         android:visibility="gone"
-        app:layout_constraintStart_toStartOf="@id/videoMessage"
-        app:layout_constraintEnd_toEndOf="@id/videoMessage"
-        app:layout_constraintTop_toTopOf="@id/videoMessage"
-        app:layout_constraintBottom_toBottomOf="@id/videoMessage"/>
+        app:layout_constraintStart_toStartOf="@id/receivedVideoMessage"
+        app:layout_constraintEnd_toEndOf="@id/receivedVideoMessage"
+        app:layout_constraintTop_toTopOf="@id/receivedVideoMessage"
+        app:layout_constraintBottom_toBottomOf="@id/receivedVideoMessage"/>
 
     <TextView
         android:id="@+id/textMessage"
@@ -85,7 +84,7 @@
         android:textSize="@dimen/_13ssp"
         android:visibility="gone"
         app:layout_constraintStart_toEndOf="@id/senderProfile"
-        app:layout_constraintTop_toBottomOf="@id/imageMessage"
+        app:layout_constraintTop_toBottomOf="@id/receivedImageMessage"
         app:layout_constraintWidth_percent="0.75"/>
 
     <TextView

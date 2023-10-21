@@ -10,9 +10,11 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.util.Base64;
 import android.view.View;
+import android.widget.SeekBar;
 
 import com.example.terrascan.adapters.ChatAdapter;
 import com.example.terrascan.databinding.ActivityCommunityBinding;
@@ -46,6 +48,8 @@ public class CommunityActivity extends AppCompatActivity {
     private FirebaseFirestore database;
     private String encodedImage;
     private String downloadUrl;
+    private boolean isPlaying = false;
+    private final Handler handler = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -151,8 +155,8 @@ public class CommunityActivity extends AppCompatActivity {
             message.put(Constants.KEY_TIMESTAMP, new Date());
             database.collection(Constants.KEY_COLLECTION_CHAT).add(message);
             binding.inputMessage.setText(null);
-            binding.imagePreview.setVisibility(View.GONE);
-            encodedImage = null;
+            binding.layoutPreviewVideo.setVisibility(View.GONE);
+            downloadUrl = null;
         } else if(!binding.inputMessage.getText().toString().isEmpty()) {
             HashMap<String, Object> message = new HashMap<>();
             message.put(Constants.KEY_USERNAME, preferenceManager.getString(Constants.KEY_USERNAME));
@@ -194,22 +198,9 @@ public class CommunityActivity extends AppCompatActivity {
                                         binding.imagePreview.setVisibility(View.VISIBLE);
                                         encodedImage = encodeImage(bitmap);
                                     } else if (mediaType.startsWith("video/")) {
-                                        FirebaseStorage storage = FirebaseStorage.getInstance();
-                                        StorageReference storageRef = storage.getReference();
-                                        String fileName = "videos/" + System.currentTimeMillis() + ".mp4";
-
-                                        StorageReference videoRef = storageRef.child(fileName);
-                                        videoRef.putFile(selectedMediaUri)
-                                                .addOnSuccessListener(taskSnapshot -> {
-                                                    videoRef.getDownloadUrl()
-                                                            .addOnSuccessListener(uri -> {
-                                                                downloadUrl = uri.toString();
-                                                            })
-                                                            .addOnFailureListener(e -> {
-                                                            });
-                                                })
-                                                .addOnFailureListener(e -> {
-                                                });
+                                        previewVideo(selectedMediaUri);
+                                        binding.layoutPreviewVideo.setVisibility(View.VISIBLE);
+                                        sendVideoListener(selectedMediaUri);
                                     }
                                 } catch (FileNotFoundException e) {
                                     e.printStackTrace();
@@ -220,5 +211,83 @@ public class CommunityActivity extends AppCompatActivity {
                 }
             }
     );
+
+    private void loading(Boolean isLoading) {
+        if(isLoading) {
+            binding.progessBar.setVisibility(View.VISIBLE);
+        } else {
+            binding.progessBar.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    private void sendVideoListener(Uri videoUri) {
+        binding.layoutSend.setOnClickListener(v -> {
+            loading(true);
+            FirebaseStorage storage = FirebaseStorage.getInstance();
+            StorageReference storageRef = storage.getReference();
+            String fileName = "videos/" + System.currentTimeMillis() + ".mp4";
+            StorageReference videoRef = storageRef.child(fileName);
+            videoRef.putFile(videoUri)
+                    .addOnSuccessListener(taskSnapshot -> {
+                        videoRef.getDownloadUrl()
+                                .addOnSuccessListener(uri -> {
+                                    loading(false);
+                                    downloadUrl = uri.toString();
+                                    sendMessage();
+                                })
+                                .addOnFailureListener(e -> {
+                                    loading(false);
+                                });
+                    })
+                    .addOnFailureListener(e -> {
+                    });
+        });
+    }
+
+    private void previewVideo(Uri videoUri) {
+        binding.videoView.setVideoURI(videoUri);
+        binding.videoView.setOnPreparedListener(mp -> {
+            int duration = binding.videoView.getDuration();
+            binding.seekBar.setMax(duration);
+
+            binding.videoView.start();
+            binding.playPauseButton.setImageResource(android.R.drawable.ic_media_pause);
+            isPlaying = true;
+        });
+
+        binding.playPauseButton.setOnClickListener(v -> {
+            if (isPlaying) {
+                binding.videoView.pause();
+                binding.playPauseButton.setImageResource(android.R.drawable.ic_media_play);
+            } else {
+                binding.videoView.start();
+                binding.playPauseButton.setImageResource(android.R.drawable.ic_media_pause);
+            }
+            isPlaying = !isPlaying;
+        });
+
+        binding.seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                if (fromUser) {
+                    binding.videoView.seekTo(progress);
+                }
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+            }
+        });
+
+        binding.videoView.setOnCompletionListener(mp -> {
+            isPlaying = false;
+            binding.playPauseButton.setImageResource(android.R.drawable.ic_media_play);
+            binding.videoView.seekTo(0);
+        });
+    }
 
 }

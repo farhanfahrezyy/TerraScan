@@ -121,6 +121,53 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
+    <RelativeLayout
+        android:id="@+id/layoutPreviewVideo"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:paddingStart="@dimen/_16sdp"
+        android:paddingEnd="@dimen/_16sdp"
+        android:background="@color/gradientBlack"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="@id/chatRecyclerView"
+        app:layout_constraintBottom_toTopOf="@id/inputMessage"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <VideoView
+            android:id="@+id/videoView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true" />
+
+        <ImageView
+            android:id="@+id/playPauseButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:src="@android:drawable/ic_media_play"
+            android:layout_gravity="center" />
+
+        <SeekBar
+            android:id="@+id/seekBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/videoView"
+            android:layout_centerHorizontal="true" />
+
+    </RelativeLayout>
+
+    <ProgressBar
+        android:id="@+id/progessBar"
+        android:layout_width="@dimen/_25sdp"
+        android:layout_height="@dimen/_25sdp"
+        android:layout_gravity="center"
+        android:visibility="invisible"
+        app:layout_constraintTop_toTopOf="@id/chatRecyclerView"
+        app:layout_constraintBottom_toTopOf="@id/inputMessage"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
     <EditText
         android:id="@+id/inputMessage"
         android:layout_width="0dp"

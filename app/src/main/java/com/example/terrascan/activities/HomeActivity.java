@@ -34,9 +34,11 @@ public class HomeActivity extends AppCompatActivity {
     }
     
     private void loadImageProfile() {
-        byte[] bytes = Base64.decode(preferenceManager.getString(Constants.KEY_IMAGE_PROFILE), Base64.DEFAULT);
-        Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-        binding.imageProfile.setImageBitmap(bitmap);
+        if(preferenceManager.getString(Constants.KEY_IMAGE_PROFILE) != null) {
+            byte[] bytes = Base64.decode(preferenceManager.getString(Constants.KEY_IMAGE_PROFILE), Base64.DEFAULT);
+            Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+            binding.imageProfile.setImageBitmap(bitmap);
+        }
     }
 
     private void imageSlider() {
