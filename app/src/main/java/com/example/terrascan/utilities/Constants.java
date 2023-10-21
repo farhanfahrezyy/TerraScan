@@ -3,6 +3,10 @@ package com.example.terrascan.utilities;
 public class Constants {
     //Account Constants
     public static String KEY_COLLECTION_USERS = "users";
+    public static String KEY_ACCOUNT_TYPE = "accountType";
+    public static String KEY_NORMAL_ACCOUNT = "normalUser";
+    public static String KEY_SELLER_ACCOUNT = "sellerAccount";
+    public static String KEY_ADMIN_ACCOUNT = "adminAccount";
     public static String KEY_USERNAME = "username";
     public static String KEY_PHONE_NUMBER = "phoneNumber";
     public static String KEY_EMAIL = "email";

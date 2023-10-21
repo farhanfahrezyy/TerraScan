@@ -49,15 +49,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
 
-        <ImageView
-            android:id="@+id/defaultProfile"
-            android:layout_width="@dimen/_40sdp"
-            android:layout_height="@dimen/_40sdp"
-            android:src="@drawable/ic_profile"
-            app:tint="@color/neutral_60"
-            android:layout_gravity="center"
-            android:contentDescription="@string/default_image_profile" />
-
     </FrameLayout>
 
     <com.denzcoskun.imageslider.ImageSlider
@@ -70,7 +61,7 @@
         app:iss_auto_cycle="true"
         app:iss_delay="0"
         app:iss_period="3000"
-        app:iss_placeholder="@color/black"
+        app:iss_placeholder="@color/white"
         app:iss_error_image="@color/lightRed"
         app:iss_corner_radius="20"
         app:layout_constraintTop_toBottomOf="@id/layoutImage"

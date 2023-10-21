@@ -3,7 +3,10 @@ package com.example.terrascan.activities;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Base64;
 import android.widget.Toast;
 
 import com.example.terrascan.databinding.ActivityProfileBinding;
@@ -40,13 +43,16 @@ public class ProfileActivity extends AppCompatActivity {
         });
 
         binding.logOut.setOnClickListener(v -> logOut());
+
+//        binding.editProfile.setOnClickListener(v ->
+//                startActivity(new Intent(getApplicationContext(), editP.class)));
     }
 
     private void loadUserDetails() {
         binding.valueUsername.setText(preferenceManager.getString(Constants.KEY_USERNAME));
-//        byte[] bytes = Base64.decode(preferenceManager.getString(Constants.KEY_IMAGE), Base64.DEFAULT);
-//        Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-//        binding.imageProfile.setImageBitmap(bitmap);
+        byte[] bytes = Base64.decode(preferenceManager.getString(Constants.KEY_IMAGE_PROFILE), Base64.DEFAULT);
+        Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+        binding.imageProfile.setImageBitmap(bitmap);
         binding.valueEmail.setText(preferenceManager.getString(Constants.KEY_EMAIL));
         binding.valuePhoneNumber.setText(preferenceManager.getString(Constants.KEY_PHONE_NUMBER));
 

@@ -85,6 +85,7 @@ public class SignUpActivity extends AppCompatActivity {
         loading(true);
         FirebaseFirestore database = FirebaseFirestore.getInstance();
         HashMap<String, Object> user = new HashMap<>();
+        user.put(Constants.KEY_ACCOUNT_TYPE, Constants.KEY_NORMAL_ACCOUNT);
         user.put(Constants.KEY_USERNAME, binding.inputUsername.getText().toString());
         user.put(Constants.KEY_EMAIL, binding.inputEmail.getText().toString());
         user.put(Constants.KEY_PHONE_NUMBER, binding.inputPhoneNumber.getText().toString());
@@ -96,6 +97,7 @@ public class SignUpActivity extends AppCompatActivity {
                     loading(false);
                     preferenceManager.putBoolean(Constants.KEY_IS_SIGNED_IN, true);
                     preferenceManager.putString(Constants.KEY_USER_ID, documentReference.getId());
+                    preferenceManager.putString(Constants.KEY_ACCOUNT_TYPE, Constants.KEY_NORMAL_ACCOUNT);
                     preferenceManager.putString(Constants.KEY_USERNAME, binding.inputUsername.getText().toString());
                     preferenceManager.putString(Constants.KEY_EMAIL, binding.inputEmail.getText().toString());
                     preferenceManager.putString(Constants.KEY_PHONE_NUMBER, binding.inputPhoneNumber.getText().toString());

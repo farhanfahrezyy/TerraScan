@@ -154,7 +154,6 @@ public class CommunityActivity extends AppCompatActivity {
             binding.imagePreview.setVisibility(View.GONE);
             encodedImage = null;
         } else if(!binding.inputMessage.getText().toString().isEmpty()) {
-            String question = binding.inputMessage.getText().toString();
             HashMap<String, Object> message = new HashMap<>();
             message.put(Constants.KEY_USERNAME, preferenceManager.getString(Constants.KEY_USERNAME));
             message.put(Constants.KEY_SENDER_ID, preferenceManager.getString(Constants.KEY_USER_ID));

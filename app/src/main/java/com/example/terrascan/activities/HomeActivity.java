@@ -18,7 +18,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HomeActivity extends AppCompatActivity {
-
     private ActivityHomeBinding binding;
     private PreferenceManager preferenceManager;
 
@@ -50,8 +49,15 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void setListeners() {
-        binding.profileButton.setOnClickListener(v ->
-                startActivity(new Intent(getApplicationContext(), ProfileActivity.class)));
+        binding.profileButton.setOnClickListener(v -> {
+            if(preferenceManager.getString(Constants.KEY_ACCOUNT_TYPE).equals(Constants.KEY_NORMAL_ACCOUNT)) {
+                startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
+            } else if(preferenceManager.getString(Constants.KEY_ACCOUNT_TYPE).equals(Constants.KEY_SELLER_ACCOUNT)) {
+                startActivity(new Intent(getApplicationContext(), ProfileSellerActivity.class));
+            } else {
+                startActivity(new Intent(getApplicationContext(), ProfileAdminActivity.class));
+            }
+        });
         binding.community.setOnClickListener(v ->
                 startActivity(new Intent(getApplicationContext(), CommunityActivity.class)));
     }
