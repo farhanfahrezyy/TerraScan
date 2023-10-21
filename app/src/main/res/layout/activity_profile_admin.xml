@@ -37,20 +37,59 @@
         android:textSize="@dimen/_28sdp"
         />
 
-    <TextView
-        android:id="@+id/joinMitra"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Join Mitra ?"
-        android:textStyle="bold"
-        android:textColor="@color/white"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginEnd="@dimen/_16sdp"
-        android:layout_marginTop="@dimen/_9sdp"
-        android:textSize="@dimen/_12sdp"
-        />
+        app:layout_constraintEnd_toEndOf="parent">
 
+
+
+        <ImageView
+            android:id="@+id/adminMail"
+            android:layout_width="@dimen/_27sdp"
+            android:layout_height="@dimen/_32sdp"
+            android:src="@drawable/email"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginEnd="@dimen/_20sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/NotificaationNumberContainer"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            app:cardBackgroundColor="@color/lightRed"
+            app:cardCornerRadius="50dp"
+            app:layout_constraintBottom_toBottomOf="@+id/adminMail"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginRight="@dimen/_14sdp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layoutNumberNotification"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/NumberNotification"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+        </androidx.cardview.widget.CardView>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
     <FrameLayout
         android:id="@+id/layoutImage"
         android:layout_width="wrap_content"
