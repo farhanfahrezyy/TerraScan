@@ -70,6 +70,7 @@ public class CommunityActivity extends AppCompatActivity {
             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
             galleryPick.launch(intent);
         });
+        binding.backButton.setOnClickListener(v -> getOnBackPressedDispatcher().onBackPressed());
     }
 
     private void init() {

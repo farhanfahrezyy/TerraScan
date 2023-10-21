@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Toast;
@@ -14,10 +15,13 @@ import com.example.terrascan.utilities.PreferenceManager;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.concurrent.atomic.AtomicBoolean;
+
 public class SignInActivity extends AppCompatActivity {
 
     private ActivitySignInBinding binding;
     private PreferenceManager preferenceManager;
+    private AtomicBoolean isPasswordVisible;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,11 +34,14 @@ public class SignInActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         }
+        isPasswordVisible = new AtomicBoolean(false);
 
         setListeners();
     }
 
     private void setListeners() {
+        binding.togglePassword.setOnClickListener(v -> togglePassword());
+
         binding.layoutSignUp.setOnClickListener(v ->
                 startActivity(new Intent(getApplicationContext(), SignUpActivity.class)));
 
@@ -43,6 +50,18 @@ public class SignInActivity extends AppCompatActivity {
                 signIn();
             }
         });
+
+        binding.forgotPassword.setOnClickListener(v ->
+                startActivity(new Intent(getApplicationContext(), ForgetPasswordActivity.class)));
+    }
+
+    private void togglePassword() {
+        isPasswordVisible.set(!isPasswordVisible.get());
+        if (isPasswordVisible.get()) {
+            binding.inputPassword.setInputType(InputType.TYPE_CLASS_TEXT);
+        } else {
+            binding.inputPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        }
     }
 
     private void signIn() {

@@ -70,7 +70,9 @@ public class ProfileActivity extends AppCompatActivity {
         documentReference.update(updates)
                 .addOnSuccessListener(unused -> {
                     preferenceManager.clear();
-                    startActivity(new Intent(getApplicationContext(), SignInActivity.class));
+                    Intent i = new Intent(getApplicationContext(), SignInActivity.class);
+                    i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(i);
                     finish();
                 })
                 .addOnFailureListener(e -> showToast("Unable to sign out"));
