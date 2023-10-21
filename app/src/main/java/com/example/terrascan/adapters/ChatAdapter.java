@@ -117,6 +117,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     binding.textMessage.setVisibility(View.VISIBLE);
                 }
                 binding.textDateTime.setText(chatMessage.dateTime);
+                binding.textDateTime.setVisibility(View.VISIBLE);
             } else if(chatMessage.messageType.equals(Constants.KEY_MESSAGE_TYPE_VIDEO)) {
                 videoUrl = chatMessage.videoUrl;
                 MediaMetadataRetriever mediaMetadataRetriever = new MediaMetadataRetriever();
@@ -131,10 +132,13 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     binding.textMessage.setText(chatMessage.message);
                     binding.textMessage.setVisibility(View.VISIBLE);
                 }
+                binding.videoDateTime.setText(chatMessage.dateTime);
+                binding.videoDateTime.setVisibility(View.VISIBLE);
             } else {
                 binding.textMessage.setText(chatMessage.message);
                 binding.textMessage.setVisibility(View.VISIBLE);
                 binding.textDateTime.setText(chatMessage.dateTime);
+                binding.textDateTime.setVisibility(View.VISIBLE);
             }
 
             binding.sentImageMessage.setOnClickListener(v -> {
@@ -256,6 +260,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     binding.textMessage.setVisibility(View.VISIBLE);
                 }
                 binding.textDateTime.setText(chatMessage.dateTime);
+                binding.textDateTime.setVisibility(View.VISIBLE);
             } else if(chatMessage.messageType.equals(Constants.KEY_MESSAGE_TYPE_VIDEO)) {
                 videoUrl = chatMessage.videoUrl;
                 MediaMetadataRetriever mediaMetadataRetriever = new MediaMetadataRetriever();
@@ -270,10 +275,13 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     binding.textMessage.setText(chatMessage.message);
                     binding.textMessage.setVisibility(View.VISIBLE);
                 }
+                binding.videoDateTime.setText(chatMessage.dateTime);
+                binding.videoDateTime.setVisibility(View.VISIBLE);
             } else {
                 binding.textMessage.setText(chatMessage.message);
                 binding.textMessage.setVisibility(View.VISIBLE);
                 binding.textDateTime.setText(chatMessage.dateTime);
+                binding.textDateTime.setVisibility(View.VISIBLE);
             }
 
             binding.receivedImageMessage.setOnClickListener(v -> {
