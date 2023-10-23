@@ -61,7 +61,7 @@
         app:iss_auto_cycle="true"
         app:iss_delay="0"
         app:iss_period="3000"
-        app:iss_placeholder="@color/white"
+        app:iss_placeholder="@color/transparent"
         app:iss_error_image="@color/lightRed"
         app:iss_corner_radius="20"
         app:layout_constraintTop_toBottomOf="@id/layoutImage"
