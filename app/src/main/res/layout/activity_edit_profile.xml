@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
     tools:context=".activities.EditProfileActivity">
+
     <RelativeLayout
         android:id="@+id/header"
         android:layout_width="match_parent"
@@ -32,9 +34,9 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="Edit Profile"
-            android:textColor="@color/black"
             android:textSize="@dimen/_12ssp"
-            android:textStyle="bold" />
+            android:textColor="@color/black"
+            android:textStyle="bold"/>
 
     </RelativeLayout>
 
@@ -49,34 +51,30 @@
 
         <com.makeramen.roundedimageview.RoundedImageView
             android:id="@+id/imageProfile"
-            android:layout_width="@dimen/_90sdp"
-            android:layout_height="@dimen/_90sdp"
+            android:layout_width="@dimen/_80sdp"
+            android:layout_height="@dimen/_80sdp"
             android:background="@drawable/bg_profile"
             android:scaleType="centerCrop"
-            app:riv_oval="true"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:riv_oval="true"/>
 
     </FrameLayout>
 
-
-
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:clipToPadding="false"
         android:overScrollMode="never"
         android:padding="@dimen/_20sdp"
         android:scrollbars="none"
-        tools:context=".activities.SignInActivity">
+        app:layout_constraintTop_toBottomOf="@id/layoutImage"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginTop="@dimen/_150sdp">
-
-
+            android:orientation="vertical">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -144,8 +142,6 @@
                 android:imeOptions="actionDone"
                 android:importantForAutofill="no"/>
 
-
-
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -153,12 +149,12 @@
                 android:animateLayoutChanges="true">
 
                 <com.google.android.material.button.MaterialButton
-                    android:id="@+id/buttonSignUp"
+                    android:id="@+id/buttonSave"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_45sdp"
                     android:backgroundTint="@color/primary_90"
                     app:cornerRadius="@dimen/_8sdp"
-                    android:text="Submit"
+                    android:text="Save"
                     android:textStyle="bold"
                     android:textSize="@dimen/_12sdp"
                     android:textColor="@color/white"/>
@@ -172,12 +168,8 @@
 
             </FrameLayout>
 
-
         </LinearLayout>
 
     </ScrollView>
-
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

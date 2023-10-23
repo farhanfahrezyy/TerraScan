@@ -44,8 +44,11 @@ public class ProfileActivity extends AppCompatActivity {
 
         binding.logOut.setOnClickListener(v -> logOut());
 
-//        binding.editProfile.setOnClickListener(v ->
-//                startActivity(new Intent(getApplicationContext(), editP.class)));
+        binding.editProfile.setOnClickListener(v -> {
+            Intent i = new Intent(getApplicationContext(), EditProfileActivity.class);
+            startActivity(i);
+        });
+
     }
 
     private void loadUserDetails() {
