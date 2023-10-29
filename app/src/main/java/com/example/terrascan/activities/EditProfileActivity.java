@@ -2,6 +2,7 @@ package com.example.terrascan.activities;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -17,19 +18,36 @@ import android.widget.Toast;
 
 import com.example.terrascan.databinding.ActivityEditProfileBinding;
 import com.example.terrascan.utilities.Constants;
+import com.example.terrascan.utilities.MD5Hash;
 import com.example.terrascan.utilities.PreferenceManager;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.HttpUrl;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class EditProfileActivity extends AppCompatActivity {
     private ActivityEditProfileBinding binding;
     private PreferenceManager preferenceManager;
     private String encodedImage;
+    public static final MediaType JSON
+            = MediaType.get("application/json; charset=utf-8");
+    OkHttpClient client = new OkHttpClient();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,18 +90,38 @@ public class EditProfileActivity extends AppCompatActivity {
         if(encodedImage == null) {
             encodedImage = preferenceManager.getString(Constants.KEY_IMAGE_PROFILE);
         }
-        FirebaseFirestore database = FirebaseFirestore.getInstance();
-        String userId = preferenceManager.getString(Constants.KEY_USER_ID);
-        DocumentReference userRef = database.collection(Constants.KEY_COLLECTION_USERS).document(userId);
 
-        HashMap<String, Object> updatedData = new HashMap<>();
-        updatedData.put(Constants.KEY_IMAGE_PROFILE, encodedImage);
-        updatedData.put(Constants.KEY_USERNAME, binding.inputUsername.getText().toString());
-        updatedData.put(Constants.KEY_EMAIL, binding.inputEmail.getText().toString());
-        updatedData.put(Constants.KEY_PHONE_NUMBER, binding.inputPhoneNumber.getText().toString());
+        HttpUrl httpUrl = new HttpUrl.Builder()
+                .scheme("https")
+                .host("asia-south1.gcp.data.mongodb-api.com")
+                .addPathSegment("app")
+                .addPathSegment("application-0-xighs")
+                .addPathSegment("endpoint")
+                .addPathSegment("updateUserById")
+                .addQueryParameter("id", preferenceManager.getString(Constants.KEY_USER_ID))
+                .build();
 
-        userRef.update(updatedData)
-                .addOnSuccessListener(v -> {
+        JSONObject jsonBody;
+        try {
+            jsonBody = new JSONObject();
+            jsonBody.put(Constants.KEY_USERNAME, binding.inputUsername.getText().toString());
+            jsonBody.put(Constants.KEY_EMAIL, binding.inputEmail.getText().toString());
+            jsonBody.put(Constants.KEY_PHONE_NUMBER, binding.inputPhoneNumber.getText().toString());
+            jsonBody.put(Constants.KEY_IMAGE_PROFILE, encodedImage);
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
+
+        RequestBody body = RequestBody.create(jsonBody.toString(), JSON);
+        Request request = new Request.Builder()
+                .url(httpUrl.toString())
+                .put(body)
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                if (response.isSuccessful()) {
                     preferenceManager.putString(Constants.KEY_USERNAME, binding.inputUsername.getText().toString());
                     preferenceManager.putString(Constants.KEY_IMAGE_PROFILE, encodedImage);
                     preferenceManager.putString(Constants.KEY_EMAIL, binding.inputEmail.getText().toString());
@@ -91,11 +129,22 @@ public class EditProfileActivity extends AppCompatActivity {
                     Intent i = new Intent(getApplicationContext(), ProfileActivity.class);
                     startActivity(i);
                     finish();
-                })
-                .addOnFailureListener(e -> {
-                    loading(false);
+                } else {
+                    runOnUiThread(() -> {
+                        showToast("Gagal menyimpan");
+                        loading(false);
+                    });
+                }
+            }
+
+            @Override
+            public void onFailure(okhttp3.Call call, IOException e) {
+                runOnUiThread(() -> {
                     showToast("Gagal menyimpan");
+                    loading(false);
                 });
+            }
+        });
     }
 
     private String encodeImage(Bitmap bitmap) {

@@ -1,5 +1,6 @@
 package com.example.terrascan.activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -11,17 +12,30 @@ import android.widget.Toast;
 
 import com.example.terrascan.databinding.ActivitySignInBinding;
 import com.example.terrascan.utilities.Constants;
+import com.example.terrascan.utilities.MD5Hash;
 import com.example.terrascan.utilities.PreferenceManager;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.concurrent.atomic.AtomicBoolean;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.HttpUrl;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class SignInActivity extends AppCompatActivity {
 
     private ActivitySignInBinding binding;
     private PreferenceManager preferenceManager;
     private AtomicBoolean isPasswordVisible;
+    OkHttpClient client = new OkHttpClient();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,30 +80,72 @@ public class SignInActivity extends AppCompatActivity {
 
     private void signIn() {
         loading(true);
-        FirebaseFirestore database = FirebaseFirestore.getInstance();
-        database.collection(Constants.KEY_COLLECTION_USERS)
-                .whereEqualTo(Constants.KEY_EMAIL, binding.inputEmail.getText().toString())
-                .whereEqualTo(Constants.KEY_PASSWORD, binding.inputPassword.getText().toString())
+
+        HttpUrl httpUrl = new HttpUrl.Builder()
+                .scheme("https")
+                .host("asia-south1.gcp.data.mongodb-api.com")
+                .addPathSegment("app")
+                .addPathSegment("application-0-xighs")
+                .addPathSegment("endpoint")
+                .addPathSegment("getUserByEmailPassword")
+                .addQueryParameter(Constants.KEY_EMAIL, binding.inputEmail.getText().toString())
+                .addQueryParameter(Constants.KEY_PASSWORD, MD5Hash.md5(binding.inputPassword.getText().toString()))
+                .build();
+
+        Request request = new Request.Builder()
+                .url(httpUrl.toString())
                 .get()
-                .addOnCompleteListener(task -> {
-                    if(task.isSuccessful() && task.getResult() != null
-                            && task.getResult().getDocuments().size() > 0) {
-                        DocumentSnapshot documentSnapshot = task.getResult().getDocuments().get(0);
-                        preferenceManager.putBoolean(Constants.KEY_IS_SIGNED_IN, true);
-                        preferenceManager.putString(Constants.KEY_USER_ID, documentSnapshot.getId());
-                        preferenceManager.putString(Constants.KEY_ACCOUNT_TYPE, documentSnapshot.getString(Constants.KEY_ACCOUNT_TYPE));
-                        preferenceManager.putString(Constants.KEY_USERNAME, documentSnapshot.getString(Constants.KEY_USERNAME));
-                        preferenceManager.putString(Constants.KEY_IMAGE_PROFILE, documentSnapshot.getString(Constants.KEY_IMAGE_PROFILE));
-                        preferenceManager.putString(Constants.KEY_EMAIL, binding.inputEmail.getText().toString());
-                        preferenceManager.putString(Constants.KEY_PHONE_NUMBER, documentSnapshot.getString(Constants.KEY_PHONE_NUMBER));
-                        Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        startActivity(intent);
-                    } else {
-                        loading(false);
-                        showToast("Unable to sign in");
-                    }
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                runOnUiThread(() -> {
+                    showToast("Unable to sign in");
+                    loading(false);
                 });
+            }
+
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                if(response.isSuccessful()){
+                    String responseData = response.body().string();
+                    if(responseData.equals("null")){
+                        runOnUiThread(() -> {
+                            showToast("Failed to sign in, please try again");
+                            loading(false);
+                        });
+                    } else {
+                        try {
+                            JSONObject jsonResponse = new JSONObject(responseData);
+                            String userId = jsonResponse.getString("_id");
+                            String accountType = jsonResponse.getString("accountType");
+                            String username = jsonResponse.getString("username");
+                            String imageProfile = jsonResponse.getString("imageProfile");
+                            String email = jsonResponse.getString("email");
+                            String phoneNumber = jsonResponse.getString("phoneNumber");
+                            preferenceManager.putBoolean(Constants.KEY_IS_SIGNED_IN, true);
+                            preferenceManager.putString(Constants.KEY_USER_ID, userId);
+                            preferenceManager.putString(Constants.KEY_ACCOUNT_TYPE, accountType);
+                            preferenceManager.putString(Constants.KEY_USERNAME, username);
+                            preferenceManager.putString(Constants.KEY_IMAGE_PROFILE, imageProfile);
+                            preferenceManager.putString(Constants.KEY_EMAIL, email);
+                            preferenceManager.putString(Constants.KEY_PHONE_NUMBER, phoneNumber);
+                            Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            startActivity(intent);
+                        } catch (JSONException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                } else {
+                    runOnUiThread(() -> {
+                        showToast("Failed to sign in, please try again");
+                        loading(false);
+                    });
+                }
+            }
+        });
     }
 
     private void loading(Boolean isLoading) {
