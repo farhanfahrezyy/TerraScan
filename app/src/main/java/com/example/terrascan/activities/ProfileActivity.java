@@ -63,22 +63,11 @@ public class ProfileActivity extends AppCompatActivity {
 
     private void logOut() {
         showToast("Signing out...");
-        FirebaseFirestore database = FirebaseFirestore.getInstance();
-        DocumentReference documentReference =
-                database.collection(Constants.KEY_COLLECTION_USERS).document(
-                        preferenceManager.getString(Constants.KEY_USER_ID)
-                );
-        HashMap<String, Object> updates = new HashMap<>();
-        updates.put(Constants.KEY_FCM_TOKEN, FieldValue.delete());
-        documentReference.update(updates)
-                .addOnSuccessListener(unused -> {
-                    preferenceManager.clear();
-                    Intent i = new Intent(getApplicationContext(), SignInActivity.class);
-                    i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(i);
-                    finish();
-                })
-                .addOnFailureListener(e -> showToast("Unable to sign out"));
+        preferenceManager.clear();
+        Intent i = new Intent(getApplicationContext(), SignInActivity.class);
+        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(i);
+        finish();
     }
 
     private void showToast(String message) {

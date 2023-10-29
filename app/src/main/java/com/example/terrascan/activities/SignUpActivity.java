@@ -1,8 +1,8 @@
 package com.example.terrascan.activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
-import androidx.core.content.res.ResourcesCompat;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -20,18 +20,33 @@ import android.widget.Toast;
 import com.example.terrascan.R;
 import com.example.terrascan.databinding.ActivitySignUpBinding;
 import com.example.terrascan.utilities.Constants;
+import com.example.terrascan.utilities.MD5Hash;
 import com.example.terrascan.utilities.PreferenceManager;
-import com.google.firebase.firestore.FirebaseFirestore;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
-import java.util.HashMap;
+import java.io.IOException;
 import java.util.concurrent.atomic.AtomicBoolean;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.HttpUrl;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class SignUpActivity extends AppCompatActivity {
     private ActivitySignUpBinding binding;
     private PreferenceManager preferenceManager;
     private String encodedImage;
     private AtomicBoolean isPasswordVisible;
+    public static final MediaType JSON
+            = MediaType.get("application/json; charset=utf-8");
+    OkHttpClient client = new OkHttpClient();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +68,19 @@ public class SignUpActivity extends AppCompatActivity {
 
         binding.buttonSignUp.setOnClickListener(v -> {
             if(isValidSignUpDetail()) {
-                signUp();
+                isEmailAvailable(new com.example.terrascan.interfaces.Callback<Boolean>() {
+                    @Override
+                    public void onResponse(Boolean result) {
+                        System.out.println(result);
+                        if (result) {
+                            runOnUiThread(() -> {
+                                signUp();
+                            });
+                        } else {
+                            showToast("This email already exists, please use another email");
+                        }
+                    }
+                });
             }
         });
     }
@@ -95,36 +122,65 @@ public class SignUpActivity extends AppCompatActivity {
         return bitmap;
     }
 
-
     private void signUp() {
         loading(true);
-        FirebaseFirestore database = FirebaseFirestore.getInstance();
-        HashMap<String, Object> user = new HashMap<>();
-        user.put(Constants.KEY_ACCOUNT_TYPE, Constants.KEY_NORMAL_ACCOUNT);
-        user.put(Constants.KEY_USERNAME, binding.inputUsername.getText().toString());
-        user.put(Constants.KEY_EMAIL, binding.inputEmail.getText().toString());
-        user.put(Constants.KEY_PHONE_NUMBER, binding.inputPhoneNumber.getText().toString());
-        user.put(Constants.KEY_PASSWORD, binding.inputPassword.getText().toString());
-        user.put(Constants.KEY_IMAGE_PROFILE, encodedImage);
-        database.collection(Constants.KEY_COLLECTION_USERS)
-                .add(user)
-                .addOnSuccessListener(documentReference -> {
+        JSONObject jsonBody;
+        try {
+            jsonBody = new JSONObject();
+            jsonBody.put(Constants.KEY_ACCOUNT_TYPE, Constants.KEY_NORMAL_ACCOUNT);
+            jsonBody.put(Constants.KEY_USERNAME, binding.inputUsername.getText().toString());
+            jsonBody.put(Constants.KEY_EMAIL, binding.inputEmail.getText().toString());
+            jsonBody.put(Constants.KEY_PHONE_NUMBER, binding.inputPhoneNumber.getText().toString());
+            jsonBody.put(Constants.KEY_PASSWORD, MD5Hash.md5(binding.inputPassword.getText().toString()));
+            jsonBody.put(Constants.KEY_IMAGE_PROFILE, encodedImage);
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
+
+        RequestBody body = RequestBody.create(jsonBody.toString(), JSON);
+        Request request = new Request.Builder()
+                .url("https://asia-south1.gcp.data.mongodb-api.com/app/application-0-xighs/endpoint/insertUser")
+                .post(body)
+                .build();
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    String responseData = response.body().string();
+                    JSONObject jsonResponse;
+                    try {
+                        jsonResponse = new JSONObject(responseData);
+                        String userId = jsonResponse.getString("insertedId");
+                        System.out.println(userId);
+                        preferenceManager.putBoolean(Constants.KEY_IS_SIGNED_IN, true);
+                        preferenceManager.putString(Constants.KEY_USER_ID, userId);
+                        preferenceManager.putString(Constants.KEY_ACCOUNT_TYPE, Constants.KEY_NORMAL_ACCOUNT);
+                        preferenceManager.putString(Constants.KEY_USERNAME, binding.inputUsername.getText().toString());
+                        preferenceManager.putString(Constants.KEY_EMAIL, binding.inputEmail.getText().toString());
+                        preferenceManager.putString(Constants.KEY_PHONE_NUMBER, binding.inputPhoneNumber.getText().toString());
+                        preferenceManager.putString(Constants.KEY_IMAGE_PROFILE, encodedImage);
+                        Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+                    } catch (JSONException e) {
+                        throw new RuntimeException(e);
+                    }
+                } else {
+                    runOnUiThread(() -> {
+                        showToast("Failed to sign up");
+                        loading(false);
+                    });
+                }
+            }
+
+            @Override
+            public void onFailure(okhttp3.Call call, IOException e) {
+                runOnUiThread(() -> {
+                    showToast("Failed to sign up");
                     loading(false);
-                    preferenceManager.putBoolean(Constants.KEY_IS_SIGNED_IN, true);
-                    preferenceManager.putString(Constants.KEY_USER_ID, documentReference.getId());
-                    preferenceManager.putString(Constants.KEY_ACCOUNT_TYPE, Constants.KEY_NORMAL_ACCOUNT);
-                    preferenceManager.putString(Constants.KEY_USERNAME, binding.inputUsername.getText().toString());
-                    preferenceManager.putString(Constants.KEY_EMAIL, binding.inputEmail.getText().toString());
-                    preferenceManager.putString(Constants.KEY_PHONE_NUMBER, binding.inputPhoneNumber.getText().toString());
-                    preferenceManager.putString(Constants.KEY_IMAGE_PROFILE, encodedImage);
-                    Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(intent);
-                })
-                .addOnFailureListener(exception -> {
-                    loading(false);
-                    showToast(exception.getMessage());
                 });
+            }
+        });
     }
 
     private void loading(Boolean isLoading) {
@@ -157,6 +213,62 @@ public class SignUpActivity extends AppCompatActivity {
         } else {
             return true;
         }
+    }
+
+    private void isEmailAvailable(com.example.terrascan.interfaces.Callback<Boolean> callback) {
+        loading(true);
+        HttpUrl httpUrl = new HttpUrl.Builder()
+                .scheme("https")
+                .host("asia-south1.gcp.data.mongodb-api.com")
+                .addPathSegment("app")
+                .addPathSegment("application-0-xighs")
+                .addPathSegment("endpoint")
+                .addPathSegment("getEmailAvailability")
+                .addQueryParameter(Constants.KEY_EMAIL, binding.inputEmail.getText().toString())
+                .build();
+
+        Request request = new Request.Builder()
+                .url(httpUrl.toString())
+                .get()
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                runOnUiThread(() -> {
+                    System.out.println("gagal okhttp");
+                    showToast("Unable to check email");
+                    callback.onResponse(false);
+                    loading(false);
+                });
+            }
+
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                if(response.isSuccessful()){
+                    String responseData = response.body().string();
+                    if(responseData.equals("null")){
+                        runOnUiThread(() -> {
+                            System.out.println("email kosong");
+                            callback.onResponse(true);
+                        });
+                    } else {
+                        runOnUiThread(() -> {
+                            System.out.println("email sudah ada");
+                            callback.onResponse(false);
+                            loading(false);
+                        });
+                    }
+                } else {
+                    runOnUiThread(() -> {
+                        showToast("Unable to check email");
+                        System.out.println("Respon gagal");
+                        callback.onResponse(false);
+                        loading(false);
+                    });
+                }
+            }
+        });
     }
 
 }
