@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.util.Base64;
 import android.widget.Toast;
 
+import com.example.terrascan.R;
 import com.example.terrascan.databinding.ActivityProfileBinding;
 import com.example.terrascan.utilities.Constants;
 import com.example.terrascan.utilities.PreferenceManager;
@@ -35,14 +36,15 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private void setListeners() {
-        binding.homeButton.setOnClickListener(v -> {
+        binding.homeButtonp.setOnClickListener(v -> {
             Intent i = new Intent(getApplicationContext(), HomeActivity.class);
-            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK );
             startActivity(i);
             finish();
+
         });
 
-        binding.logOut.setOnClickListener(v -> logOut());
+//        binding.logOut.setOnClickListener(v -> logOut());
 
         binding.editProfile.setOnClickListener(v -> {
             Intent i = new Intent(getApplicationContext(), EditProfileActivity.class);

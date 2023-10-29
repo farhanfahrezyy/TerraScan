@@ -36,11 +36,13 @@
         <activity
             android:name=".activities.ProfileActivity"
             android:exported="false"
-            android:windowSoftInputMode="adjustResize" />
+            android:windowSoftInputMode="adjustResize"
+            />
         <activity
             android:name=".activities.HomeActivity"
             android:exported="false"
-            android:windowSoftInputMode="adjustResize" />
+            android:windowSoftInputMode="adjustResize"
+            package="app.mobius.featureWelcome"/>
         <activity
             android:name=".activities.SignUpActivity"
             android:exported="false"

@@ -1,7 +1,9 @@
 package com.example.terrascan.activities;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -10,6 +12,7 @@ import android.util.Base64;
 
 import com.denzcoskun.imageslider.constants.ScaleTypes;
 import com.denzcoskun.imageslider.models.SlideModel;
+import com.example.terrascan.R;
 import com.example.terrascan.databinding.ActivityHomeBinding;
 import com.example.terrascan.utilities.Constants;
 import com.example.terrascan.utilities.PreferenceManager;
@@ -32,7 +35,7 @@ public class HomeActivity extends AppCompatActivity {
         imageSlider();
         setListeners();
     }
-    
+
     private void loadImageProfile() {
         if(preferenceManager.getString(Constants.KEY_IMAGE_PROFILE) != null) {
             byte[] bytes = Base64.decode(preferenceManager.getString(Constants.KEY_IMAGE_PROFILE), Base64.DEFAULT);
@@ -43,9 +46,9 @@ public class HomeActivity extends AppCompatActivity {
 
     private void imageSlider() {
         List<SlideModel> slideModels = new ArrayList<>();
-        slideModels.add(new SlideModel("https://picsum.photos/id/870/200/300?grayscale&blur=2", null, ScaleTypes.FIT));
-        slideModels.add(new SlideModel("https://picsum.photos/200/300/?blur=2", null, ScaleTypes.FIT));
-        slideModels.add(new SlideModel("https://picsum.photos/200/300?grayscale", null, ScaleTypes.FIT));
+        slideModels.add(new SlideModel(R.drawable.slider5, null, ScaleTypes.FIT));
+        slideModels.add(new SlideModel(R.drawable.slider5, null, ScaleTypes.FIT));
+        slideModels.add(new SlideModel(R.drawable.slider5, null,ScaleTypes.FIT));
 
         binding.imageSlider.setImageList(slideModels);
     }
@@ -62,5 +65,14 @@ public class HomeActivity extends AppCompatActivity {
         });
         binding.community.setOnClickListener(v ->
                 startActivity(new Intent(getApplicationContext(), CommunityActivity.class)));
+
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                moveTaskToBack(true);
+                System.exit(1);
+                finish();
+            }
+        });
     }
 }

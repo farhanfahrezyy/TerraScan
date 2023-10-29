@@ -15,7 +15,9 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:contentDescription="@string/main_background" />
+        android:contentDescription="@string/main_background"
+        android:background="@android:color/transparent"
+        />
 
     <!-- End Background Main-->
     <TextView
@@ -191,7 +193,7 @@
         app:layout_constraintEnd_toEndOf="parent">
 
         <ImageButton
-            android:id="@+id/homeButton"
+            android:id="@+id/homeButtonp"
             android:layout_width="@dimen/_60sdp"
             android:layout_height="@dimen/_60sdp"
             android:layout_marginStart="@dimen/_35sdp"
