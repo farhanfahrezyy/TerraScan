@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.ProductActivity">
+
+    <!--    Header-->
+    <TextView
+        android:id="@+id/OurProduct"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_22sdp"
+        android:layout_marginStart="@dimen/_16sdp"
+        android:text="Our Product"
+        android:textSize="@dimen/_25ssp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <TextView
+        android:id="@+id/GrowGreenLiveVibrant"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_16sdp"
+        android:text="Grow Green, Live Vibrant!"
+        android:textSize="@dimen/_15ssp"
+        android:textColor="@color/primary_60"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/OurProduct"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <!-- Add product -->
+    <ImageView
+        android:id="@+id/addProduct"
+        android:layout_width="@dimen/_25sdp"
+        android:layout_height="@dimen/_25sdp"
+        android:layout_marginTop="@dimen/_22sdp"
+        android:layout_marginEnd="@dimen/_16sdp"
+        android:src="@drawable/ic_add"
+        app:tint="@color/white"
+        android:background="@drawable/circle_green"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <!--    Filter-->
+    <LinearLayout
+        android:id="@+id/layoutFilter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_16sdp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/GrowGreenLiveVibrant"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <ImageView
+            android:layout_width="@dimen/_5ssp"
+            android:layout_height="@dimen/_5sdp"
+            android:layout_marginEnd="@dimen/_2sdp"
+            android:src="@drawable/circle_green"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/_20sdp"
+            android:text="Bibit"
+            android:textSize="@dimen/_12ssp"
+            android:textColor="@color/black"
+            android:textStyle="bold"/>
+
+        <ImageView
+            android:layout_width="@dimen/_5ssp"
+            android:layout_height="@dimen/_5sdp"
+            android:layout_marginEnd="@dimen/_2sdp"
+            android:src="@drawable/circle_green"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/_20sdp"
+            android:text="Tanah"
+            android:textSize="@dimen/_12ssp"
+            android:textColor="@color/black"
+            android:textStyle="bold"/>
+
+        <ImageView
+            android:layout_width="@dimen/_5ssp"
+            android:layout_height="@dimen/_5sdp"
+            android:layout_marginEnd="@dimen/_2sdp"
+            android:src="@drawable/circle_green"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/_20sdp"
+            android:text="Pupuk"
+            android:textSize="@dimen/_12ssp"
+            android:textColor="@color/black"
+            android:textStyle="bold"/>
+
+        <ImageView
+            android:layout_width="@dimen/_5ssp"
+            android:layout_height="@dimen/_5sdp"
+            android:layout_marginEnd="@dimen/_2sdp"
+            android:src="@drawable/circle_green"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Alat Pertanian"
+            android:textSize="@dimen/_12ssp"
+            android:textColor="@color/black"
+            android:textStyle="bold"/>
+
+    </LinearLayout>
+
+    <!-- Loader -->
+    <ProgressBar
+        android:id="@+id/progessBar"
+        android:layout_width="@dimen/_25sdp"
+        android:layout_height="@dimen/_25sdp"
+        android:layout_gravity="center"
+        android:visibility="invisible"
+        app:layout_constraintTop_toBottomOf="@id/layoutFilter"
+        app:layout_constraintBottom_toTopOf="@id/bottomNavbar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <TextView
+        android:id="@+id/failedProgress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Fail load data. Please refresh"
+        android:visibility="invisible"
+        android:textColor="@color/neutral_40"
+        android:textSize="@dimen/_12ssp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/layoutFilter"
+        app:layout_constraintBottom_toTopOf="@id/bottomNavbar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <!--    RecylerView-->
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/refreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/_16sdp"
+        android:layout_marginHorizontal="@dimen/_16sdp"
+        app:layout_constraintTop_toBottomOf="@id/layoutFilter"
+        app:layout_constraintBottom_toTopOf="@id/bottomNavbar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/productRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:scrollbars="vertical" />
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    <!--BottomNavbar-->
+    <RelativeLayout
+        android:id="@+id/bottomNavbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@drawable/bg_bottomnavbar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <ImageButton
+            android:id="@+id/homeButton"
+            android:layout_width="@dimen/_60sdp"
+            android:layout_height="@dimen/_60sdp"
+            android:layout_marginStart="@dimen/_35sdp"
+            android:src="@drawable/ic_home"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            app:tint="@color/primary_90"
+            android:layout_alignParentStart="true"
+            android:contentDescription="@string/button_home" />
+
+        <ImageButton
+            android:id="@+id/profileButton"
+            android:layout_width="@dimen/_60sdp"
+            android:layout_height="@dimen/_60sdp"
+            android:layout_marginEnd="@dimen/_35sdp"
+            android:src="@drawable/ic_profile"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            app:tint="@color/primary_90"
+            android:layout_alignParentEnd="true"
+            android:contentDescription="@string/button_profile" />
+
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/supporterView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/_25sdp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/bottomNavbar"
+        android:contentDescription="@string/supportview_for_scan_icon" />
+
+    <ImageButton
+        android:id="@+id/scanButton"
+        android:layout_width="@dimen/_50sdp"
+        android:layout_height="@dimen/_50sdp"
+        android:src="@drawable/ic_scan"
+        android:background="@drawable/scan_background"
+        app:tint="@color/white"
+        app:layout_constraintTop_toBottomOf="@id/supporterView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:contentDescription="@string/button_scan" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
