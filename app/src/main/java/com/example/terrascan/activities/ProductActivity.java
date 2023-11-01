@@ -104,7 +104,6 @@ public class ProductActivity extends AppCompatActivity {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
                 runOnUiThread(() -> {
-                    System.out.println(e);
                     binding.refreshLayout.setRefreshing(false);
                     binding.progessBar.setVisibility(View.INVISIBLE);
                     binding.failedProgress.setVisibility(View.VISIBLE);
@@ -119,7 +118,6 @@ public class ProductActivity extends AppCompatActivity {
                     binding.failedProgress.setVisibility(View.INVISIBLE);
                     responseData = response.body().string();
                     runOnUiThread(()-> {
-                        System.out.println("SUKSES");
                         binding.productRecyclerView.setVisibility(View.VISIBLE);
                         setRecyclerView();
                     });
@@ -129,7 +127,6 @@ public class ProductActivity extends AppCompatActivity {
     }
 
     private void setRecyclerView() {
-        System.out.println(responseData);
         if(!responseData.isEmpty()) {
             productList = new ArrayList<>();
             try {
@@ -142,16 +139,24 @@ public class ProductActivity extends AppCompatActivity {
                     product.productName = jsonObject.getString("productName");
                     product.productDesc = jsonObject.getString("productDesc");
                     product.productPrice = jsonObject.getInt("productPrice");
-                    product.sellerName = jsonObject.getString("sellerName");
-                    product.sellerLocation = jsonObject.getString("sellerLocation");
                     product.encodeProductImage = jsonObject.getString("encodeProductImage");
+
+                    if (jsonObject.has("seller_info")) {
+                        JSONArray sellerArray = jsonObject.getJSONArray("seller_info");
+                        if (sellerArray.length() > 0) {
+                            JSONObject sellerInfo = sellerArray.getJSONObject(0);
+                            product.sellerName = sellerInfo.getString("sellerName");
+                            product.sellerLocation = sellerInfo.getString("sellerLocation");
+                            product.sellerPhoneNumber = sellerInfo.getString("sellerPhoneNumber");
+                        }
+                    }
 
                     productList.add(product);
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            productAdapter = new ProductAdapter(productList);
+            productAdapter = new ProductAdapter(productList, getApplicationContext());
             binding.productRecyclerView.setAdapter(productAdapter);
             binding.productRecyclerView.setHasFixedSize(true);
         }

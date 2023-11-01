@@ -1,8 +1,16 @@
 package com.example.terrascan.models;
 
 public class Product {
-    public String productId, productName, productDesc, sellerName, sellerLocation, encodeProductImage;
+    public String productId, productName, productDesc, sellerName, sellerLocation, sellerPhoneNumber, encodeProductImage;
     public int productPrice;
+
+    public String getProductId() {
+        return productId;
+    }
+
+    public String getSellerPhoneNumber() {
+        return sellerPhoneNumber;
+    }
 
     public String getProductName() {
         return productName;
