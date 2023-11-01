@@ -14,9 +14,12 @@
         android:theme="@style/Theme.TerraScan"
         tools:targetApi="31">
         <activity
+            android:name=".activities.ProductActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.EditProfileActivity"
             android:exported="false"
-            android:windowSoftInputMode="adjustResize"/>
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".activities.ForgetPasswordActivity"
             android:exported="false"
@@ -36,13 +39,12 @@
         <activity
             android:name=".activities.ProfileActivity"
             android:exported="false"
-            android:windowSoftInputMode="adjustResize"
-            />
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".activities.HomeActivity"
+            package="app.mobius.featureWelcome"
             android:exported="false"
-            android:windowSoftInputMode="adjustResize"
-            package="app.mobius.featureWelcome"/>
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".activities.SignUpActivity"
             android:exported="false"

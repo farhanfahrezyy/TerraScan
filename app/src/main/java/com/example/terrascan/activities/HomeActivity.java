@@ -66,6 +66,9 @@ public class HomeActivity extends AppCompatActivity {
         binding.community.setOnClickListener(v ->
                 startActivity(new Intent(getApplicationContext(), CommunityActivity.class)));
 
+        binding.product.setOnClickListener(v ->
+                startActivity(new Intent(getApplicationContext(), ProductActivity.class)));
+
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
