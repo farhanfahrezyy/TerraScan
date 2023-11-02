@@ -247,7 +247,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             binding.senderUsename.setText(chatMessage.senderUsername);
             byte[] profileBytes = Base64.decode(chatMessage.profileImage, Base64.DEFAULT);
             Bitmap profileBitmap = BitmapFactory.decodeByteArray(profileBytes, 0, profileBytes.length);
-            binding.senderProfile.setImageBitmap(profileBitmap);
+            binding.senderImageProfile.setImageBitmap(profileBitmap);
             if (chatMessage.messageType.equals(Constants.KEY_MESSAGE_TYPE_IMAGE)) {
                 byte[] bytes = Base64.decode(chatMessage.encodeImage, Base64.DEFAULT);
                 Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
