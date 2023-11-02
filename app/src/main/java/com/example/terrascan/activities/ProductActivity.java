@@ -58,6 +58,10 @@ public class ProductActivity extends AppCompatActivity {
     }
 
     private void setListeners() {
+        binding.addProduct.setOnClickListener(v -> {
+            startActivity(new Intent(getApplicationContext(), ProductInsertActivity.class));
+        });
+
         binding.profileButton.setOnClickListener(v -> {
             if(preferenceManager.getString(Constants.KEY_ACCOUNT_TYPE).equals(Constants.KEY_NORMAL_ACCOUNT)) {
                 startActivity(new Intent(getApplicationContext(), ProfileActivity.class));

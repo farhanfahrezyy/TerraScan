@@ -8,11 +8,13 @@
         android:id="@+id/layoutProduct"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_16sdp"
-        android:layout_marginBottom="@dimen/_16sdp"
+        android:layout_marginTop="@dimen/_12sdp"
+        android:layout_marginBottom="@dimen/_12sdp"
+        android:layout_marginStart="@dimen/_6sdp"
+        android:layout_marginEnd="@dimen/_6sdp"
         android:orientation="vertical"
         android:background="@drawable/bg_product"
-        android:elevation="@dimen/_10sdp">
+        android:elevation="@dimen/_5sdp">
 
         <ImageView
             android:id="@+id/productImage"

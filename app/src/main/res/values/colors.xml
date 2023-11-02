@@ -3,6 +3,7 @@
     <color name="primary_10">#61CC7A</color>
     <color name="primary_60">#3CB95B</color>
     <color name="primary_90">#34A450</color>
+    <color name="neutral_10">#f0f4f4</color>
     <color name="neutral_30">#E5E7EB</color>
     <color name="neutral_40">#9CA3AF</color>
     <color name="neutral_60">#6B7280</color>
@@ -11,6 +12,7 @@
     <color name="lightRed">#FB344F</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="cream">#F5F7F8</color>
     <color name="gradientBlack">#65000000</color>
     <color name="transparent">#00FFFFFF</color>
 </resources>

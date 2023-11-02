@@ -148,14 +148,23 @@ public class EditProfileActivity extends AppCompatActivity {
     }
 
     private String encodeImage(Bitmap bitmap) {
+        int width = bitmap.getWidth();
+        int height = bitmap.getHeight();
+        int newDimension = Math.min(width, height);
+
+        Bitmap squareBitmap = Bitmap.createBitmap(bitmap, (width - newDimension) / 2, (height - newDimension) / 2, newDimension, newDimension);
+
         int previewWidth = 150;
-        int previewHeight = bitmap.getHeight() * previewWidth / bitmap.getWidth();
-        Bitmap previewBitmap = Bitmap.createScaledBitmap(bitmap, previewWidth, previewHeight, false);
+        int previewHeight = squareBitmap.getHeight() * previewWidth / squareBitmap.getWidth();
+        Bitmap previewBitmap = Bitmap.createScaledBitmap(squareBitmap, previewWidth, previewHeight, false);
+
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         previewBitmap.compress(Bitmap.CompressFormat.JPEG, 50, byteArrayOutputStream);
         byte[] bytes = byteArrayOutputStream.toByteArray();
+
         return Base64.encodeToString(bytes, Base64.DEFAULT);
     }
+
 
     private final ActivityResultLauncher<Intent> pickProfileImage = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
