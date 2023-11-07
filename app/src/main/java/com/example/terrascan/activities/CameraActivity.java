@@ -1,6 +1,5 @@
 package com.example.terrascan.activities;
 
-import androidx.activity.OnBackPressedCallback;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -10,34 +9,33 @@ import androidx.camera.core.Camera;
 import androidx.camera.core.CameraSelector;
 import androidx.camera.core.ImageCapture;
 import androidx.camera.core.ImageCaptureException;
-import androidx.camera.core.ImageProxy;
 import androidx.camera.core.Preview;
 import androidx.camera.lifecycle.ProcessCameraProvider;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
-import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.AssetFileDescriptor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Base64;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import com.example.terrascan.R;
 import com.example.terrascan.databinding.ActivityCameraBinding;
-import com.example.terrascan.utilities.Constants;
-import com.example.terrascan.utilities.MD5Hash;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -47,12 +45,20 @@ import com.google.common.util.concurrent.ListenableFuture;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.tensorflow.lite.DataType;
+import org.tensorflow.lite.Interpreter;
+import org.tensorflow.lite.support.tensorbuffer.TensorBuffer;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+import java.nio.MappedByteBuffer;
+import java.nio.channels.FileChannel;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.ExecutionException;
@@ -67,6 +73,13 @@ import okhttp3.Response;
 
 public class CameraActivity extends AppCompatActivity {
     private ActivityCameraBinding binding;
+
+    private String seasonParam;
+    private Bitmap imageParam;
+    private int imageSize = 150;
+
+    private Interpreter tflite;
+
     int cameraFacing = CameraSelector.LENS_FACING_BACK;
     private ImageCapture imageCapture;
     OkHttpClient client = new OkHttpClient();
@@ -99,7 +112,40 @@ public class CameraActivity extends AppCompatActivity {
 
         bottomSheetBehavior = BottomSheetBehavior.from(binding.designBottomSheet);
 
+        try {
+            tflite = new Interpreter(loadModelFile());
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        int inputCount = tflite.getInputTensorCount();
+        int outputCount = tflite.getOutputTensorCount();
+
+        System.out.println("Input Count: " + inputCount);
+        System.out.println("Output Count: " + outputCount);
+
+
+        loadSeasonSpinner();
         setListeners();
+    }
+
+    private void loadSeasonSpinner() {
+        String[] seasons = {"Musim Panas", "Musim Hujan"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, seasons);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        binding.inputIklim.setAdapter(adapter);
+
+        binding.inputIklim.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                seasonParam = (String) parent.getItemAtPosition(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
     }
 
     private void setListeners() {
@@ -117,7 +163,80 @@ public class CameraActivity extends AppCompatActivity {
             i.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
             pickImage.launch(i);
         });
+
+        binding.buttonSubmit.setOnClickListener(v -> {
+            binding.loadingBackground.setVisibility(View.VISIBLE);
+            binding.progressBar.setVisibility(View.VISIBLE);
+            binding.loadingText.setVisibility(View.VISIBLE);
+            if(imageParam != null && !seasonParam.isEmpty()) {
+                classifyImage(imageParam);
+            }
+        });
     }
+
+    private MappedByteBuffer loadModelFile() throws IOException {
+        AssetFileDescriptor fileDescriptor = getAssets().openFd("TerraScanModel.tflite");
+        FileInputStream inputStream = new FileInputStream(fileDescriptor.getFileDescriptor());
+        FileChannel fileChannel = inputStream.getChannel();
+        long startOffset = fileDescriptor.getStartOffset();
+        long declaredLength = fileDescriptor.getDeclaredLength();
+        return fileChannel.map(FileChannel.MapMode.READ_ONLY, startOffset, declaredLength);
+    }
+
+    private void classifyImage(Bitmap image) {
+        int imageSize = 150;
+        ByteBuffer byteBuffer = ByteBuffer.allocateDirect(4 * imageSize * imageSize * 3);
+        byteBuffer.order(ByteOrder.nativeOrder());
+
+        int[] intValues = new int[imageSize * imageSize];
+        image.getPixels(intValues, 0, image.getWidth(), 0, 0, image.getWidth(), image.getHeight());
+        int pixel = 0;
+
+        for (int i = 0; i < imageSize; i++) {
+            for (int j = 0; j < imageSize; j++) {
+                int val = intValues[pixel++]; // RGB
+                byteBuffer.putFloat(((val >> 16) & 0xFF) * (1.f / 255));
+                byteBuffer.putFloat(((val >> 8) & 0xFF) * (1.f / 255));
+                byteBuffer.putFloat((val & 0xFF) * (1.f / 255));
+            }
+        }
+
+        TensorBuffer inputFeature0 = TensorBuffer.createFixedSize(new int[]{1, imageSize, imageSize, 3}, DataType.FLOAT32);
+        inputFeature0.loadBuffer(byteBuffer);
+
+        tflite.run(inputFeature0.getBuffer(), inputFeature0.getBuffer());
+
+        int numLabels = 2;
+        List<Result> labelProbList = new ArrayList<>();
+        float[] outputValues = inputFeature0.getFloatArray();
+
+        for (int i = 0; i < numLabels; i++) {
+            labelProbList.add(new Result(i, outputValues[i]));
+        }
+
+        labelProbList.sort((lhs, rhs) -> Float.compare(rhs.confidence, lhs.confidence));
+        printTopLabel(labelProbList.get(0));
+    }
+
+
+
+    private class Result {
+        int label;
+        float confidence;
+
+        Result(int label, float confidence) {
+            this.label = label;
+            this.confidence = confidence;
+        }
+    }
+
+    private void printTopLabel(Result result) {
+        String[] labelNames = {"Tanah Humus", "Tanah Vulkanik"};
+        String topLabel = labelNames[result.label];
+        float confidence = result.confidence;
+        showToast("Top Label: " + topLabel + ", Confidence: " + confidence);
+    }
+
 
     private final ActivityResultLauncher<Intent> pickImage = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
@@ -196,6 +315,13 @@ public class CameraActivity extends AppCompatActivity {
                 byte[] imageBytes = outputStream.toByteArray();
 
                 Bitmap bitmap = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
+
+                Bitmap image = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
+                int dimension = Math.min(image.getWidth(), image.getHeight());
+                image = ThumbnailUtils.extractThumbnail(image, dimension, dimension);
+
+                image = Bitmap.createScaledBitmap(image, imageSize, imageSize, false);
+                imageParam = image;
 
                 int width = bitmap.getWidth();
                 int height = bitmap.getHeight();
@@ -346,9 +472,11 @@ public class CameraActivity extends AppCompatActivity {
                         try {
                             JSONObject jsonResponse = new JSONObject(responseData);
                             JSONObject mainObject = jsonResponse.getJSONObject("main");
-                            double temperature = mainObject.getDouble("temp")-273;
-                            System.out.println("Temperature: " + temperature);
-                            binding.inputSuhu.setText(temperature+"℃");
+                            double temperatureKelvin = mainObject.getDouble("temp");
+                            double temperatureCelcius = temperatureKelvin - 273.15;
+
+                            String formattedTemperature = String.format(Locale.US, "%.1f", temperatureCelcius);
+                            binding.inputSuhu.setText(formattedTemperature);
                         } catch (JSONException e) {
                             throw new RuntimeException(e);
                         }

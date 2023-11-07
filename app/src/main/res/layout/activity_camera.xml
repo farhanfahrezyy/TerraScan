@@ -207,7 +207,7 @@
                         android:background="@drawable/edit_text_background"
                         android:hint="Masukkan Kota"
                         android:textColorHint="@color/neutral_40"
-                        android:inputType="textEmailAddress"
+                        android:inputType="text"
                         android:imeOptions="actionNext"
                         android:importantForAutofill="no"/>
 
@@ -220,18 +220,20 @@
                         android:textSize="@dimen/_12sdp"
                         android:textStyle="bold"/>
 
-                    <EditText
-                        android:id="@+id/inputIklim"
+                    <FrameLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_8sdp"
-                        android:padding="@dimen/_10sdp"
-                        android:background="@drawable/edit_text_background"
-                        android:hint="Masukkan iklim"
-                        android:textColorHint="@color/neutral_40"
-                        android:inputType="textEmailAddress"
-                        android:imeOptions="actionNext"
-                        android:importantForAutofill="no"/>
+                        android:background="@drawable/edit_text_background">
+
+                        <Spinner
+                            android:id="@+id/inputIklim"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="@dimen/_10sdp"
+                            android:textColorHint="@color/neutral_40" />
+
+                    </FrameLayout>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -242,18 +244,38 @@
                         android:textSize="@dimen/_12sdp"
                         android:textStyle="bold"/>
 
-                    <EditText
-                        android:id="@+id/inputSuhu"
+                    <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_8sdp"
-                        android:padding="@dimen/_10sdp"
-                        android:background="@drawable/edit_text_background"
-                        android:hint="suhu rata-rata"
-                        android:textColorHint="@color/neutral_40"
-                        android:inputType="textEmailAddress"
-                        android:imeOptions="actionNext"
-                        android:importantForAutofill="no"/>
+                        android:layout_marginTop="@dimen/_8sdp">
+
+                        <EditText
+                            android:id="@+id/inputSuhu"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_8sdp"
+                            android:padding="@dimen/_10sdp"
+                            android:background="@drawable/edit_text_background"
+                            android:hint="suhu rata-rata"
+                            android:textColorHint="@color/neutral_40"
+                            android:inputType="number|numberDecimal"
+                            android:imeOptions="actionNext"
+                            android:importantForAutofill="no"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/_8sdp"
+                            android:gravity="center"
+                            android:text="℃"
+                            android:textSize="@dimen/_18ssp"
+                            android:textColor="@color/black"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignTop="@id/inputSuhu"
+                            android:layout_alignBottom="@id/inputSuhu"/>
+
+                    </RelativeLayout>
+
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -297,6 +319,25 @@
                         android:imeOptions="actionNext"
                         android:importantForAutofill="no"/>
 
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_20sdp"
+                        android:animateLayoutChanges="true">
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/buttonSubmit"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_45sdp"
+                            android:backgroundTint="@color/primary_90"
+                            app:cornerRadius="@dimen/_8sdp"
+                            android:text="Submit"
+                            android:textStyle="bold"
+                            android:textSize="@dimen/_12ssp"
+                            android:textColor="@color/white"/>
+
+                    </FrameLayout>
+
                 </LinearLayout>
 
             </ScrollView>
@@ -305,6 +346,34 @@
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
+    <View
+        android:id="@+id/loadingBackground"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:background="@color/gradientBlack"/>
 
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="@dimen/_25sdp"
+        android:layout_height="@dimen/_25sdp"
+        android:layout_gravity="center"
+        android:visibility="invisible"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <TextView
+        android:id="@+id/loadingText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Menganalisis Gambar..."
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/progressBar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

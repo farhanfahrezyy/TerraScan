@@ -31,6 +31,7 @@ android {
     }
     buildFeatures{
         viewBinding true
+        mlModelBinding true
     }
 }
 
@@ -42,9 +43,13 @@ dependencies {
     implementation 'com.google.firebase:firebase-firestore-ktx:24.8.1'
     implementation 'com.google.firebase:firebase-messaging-ktx:23.2.1'
     implementation 'com.google.firebase:firebase-storage:20.0.1'
+    implementation 'org.tensorflow:tensorflow-lite-support:0.1.0'
+    implementation 'org.tensorflow:tensorflow-lite-metadata:0.1.0'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+
+    implementation 'org.tensorflow:tensorflow-lite:2.6.0'
 
     //Multidex
     implementation "androidx.multidex:multidex:2.0.1"

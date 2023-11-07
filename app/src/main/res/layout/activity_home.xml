@@ -268,17 +268,18 @@
     <RelativeLayout
         android:id="@+id/bottomNavbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/_60sdp"
         android:orientation="horizontal"
         android:background="@drawable/bg_bottomnavbar"
+        android:gravity="center_vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
         <ImageButton
             android:id="@+id/homeButton"
-            android:layout_width="@dimen/_60sdp"
-            android:layout_height="@dimen/_60sdp"
+            android:layout_width="@dimen/_50sdp"
+            android:layout_height="@dimen/_50sdp"
             android:layout_marginStart="@dimen/_35sdp"
             android:src="@drawable/ic_home"
             android:background="?attr/selectableItemBackgroundBorderless"
@@ -288,8 +289,8 @@
 
         <ImageButton
             android:id="@+id/profileButton"
-            android:layout_width="@dimen/_60sdp"
-            android:layout_height="@dimen/_60sdp"
+            android:layout_width="@dimen/_50sdp"
+            android:layout_height="@dimen/_50sdp"
             android:layout_marginEnd="@dimen/_35sdp"
             android:src="@drawable/ic_profile"
             android:background="?attr/selectableItemBackgroundBorderless"

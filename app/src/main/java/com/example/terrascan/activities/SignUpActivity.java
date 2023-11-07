@@ -89,8 +89,10 @@ public class SignUpActivity extends AppCompatActivity {
         isPasswordVisible.set(!isPasswordVisible.get());
         if (isPasswordVisible.get()) {
             binding.inputPassword.setInputType(InputType.TYPE_CLASS_TEXT);
+            binding.togglePassword.setImageResource(R.drawable.ic_eye_off);
         } else {
             binding.inputPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+            binding.togglePassword.setImageResource(R.drawable.ic_eye);
         }
     }
 

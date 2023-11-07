@@ -10,6 +10,7 @@ import android.util.Patterns;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.terrascan.R;
 import com.example.terrascan.databinding.ActivitySignInBinding;
 import com.example.terrascan.utilities.Constants;
 import com.example.terrascan.utilities.MD5Hash;
@@ -73,8 +74,10 @@ public class SignInActivity extends AppCompatActivity {
         isPasswordVisible.set(!isPasswordVisible.get());
         if (isPasswordVisible.get()) {
             binding.inputPassword.setInputType(InputType.TYPE_CLASS_TEXT);
+            binding.togglePassword.setImageResource(R.drawable.ic_eye_off);
         } else {
             binding.inputPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+            binding.togglePassword.setImageResource(R.drawable.ic_eye);
         }
     }
 
