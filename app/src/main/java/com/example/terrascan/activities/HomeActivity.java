@@ -63,6 +63,11 @@ public class HomeActivity extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext(), ProfileAdminActivity.class));
             }
         });
+
+        binding.scanButton.setOnClickListener(v -> {
+            startActivity(new Intent(getApplicationContext(), CameraActivity.class));
+        });
+
         binding.community.setOnClickListener(v ->
                 startActivity(new Intent(getApplicationContext(), CommunityActivity.class)));
 
