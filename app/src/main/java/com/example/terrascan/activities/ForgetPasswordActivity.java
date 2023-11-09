@@ -10,6 +10,7 @@ import android.util.Patterns;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.terrascan.R;
 import com.example.terrascan.databinding.ActivityForgetPasswordBinding;
 import com.example.terrascan.utilities.Constants;
 import com.example.terrascan.utilities.MD5Hash;
@@ -149,8 +150,10 @@ public class ForgetPasswordActivity extends AppCompatActivity {
         isPasswordVisible.set(!isPasswordVisible.get());
         if (isPasswordVisible.get()) {
             binding.inputNewPassword.setInputType(InputType.TYPE_CLASS_TEXT);
+            binding.toggleNewPassword.setImageResource(R.drawable.ic_eye_off);
         } else {
             binding.inputNewPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+            binding.toggleNewPassword.setImageResource(R.drawable.ic_eye);
         }
     }
 
@@ -158,8 +161,10 @@ public class ForgetPasswordActivity extends AppCompatActivity {
         isPasswordVisible.set(!isPasswordVisible.get());
         if (isPasswordVisible.get()) {
             binding.inputConfirmPassword.setInputType(InputType.TYPE_CLASS_TEXT);
+            binding.toggleConfirmPassword.setImageResource(R.drawable.ic_eye_off);
         } else {
             binding.inputConfirmPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+            binding.toggleConfirmPassword.setImageResource(R.drawable.ic_eye_off);
         }
     }
 
