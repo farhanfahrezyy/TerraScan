@@ -26,4 +26,8 @@
     <string name="button_profile">Button Profile</string>
     <string name="button_home">Button Home</string>
     <string name="supportview_for_scan_icon">supportView for scan icon</string>
+    <string name="send_otp_to_your_email"><u>Send OTP to your email</u></string>
+    <string name="ph">
+pH : 8\nIklim : Musim Hujan\nCahaya : Penuh\nSuhu 36\u00C2\u00B0C\n\nJenis Tanaman : Sayuran\nRekomendasi Tanaman: Terong, buncis, timun, labu
+</string>
 </resources>

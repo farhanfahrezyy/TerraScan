@@ -312,14 +312,14 @@
 
     <ImageButton
         android:id="@+id/scanButton"
-        android:layout_width="@dimen/_50sdp"
-        android:layout_height="@dimen/_50sdp"
-        android:src="@drawable/ic_scan"
+        android:layout_width="63dp"
+        android:layout_height="63dp"
         android:background="@drawable/scan_background"
-        app:tint="@color/white"
-        app:layout_constraintTop_toBottomOf="@id/supporterView"
-        app:layout_constraintStart_toStartOf="parent"
+        android:contentDescription="@string/button_scan"
+        android:src="@drawable/ic_scan"
         app:layout_constraintEnd_toEndOf="parent"
-        android:contentDescription="@string/button_scan" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/supporterView"
+        app:tint="@color/white" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
