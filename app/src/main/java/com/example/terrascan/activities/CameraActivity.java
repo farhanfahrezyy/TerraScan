@@ -1,5 +1,6 @@
 package com.example.terrascan.activities;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -36,6 +37,7 @@ import android.widget.Toast;
 
 import com.example.terrascan.R;
 import com.example.terrascan.databinding.ActivityCameraBinding;
+import com.example.terrascan.utilities.Constants;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -43,6 +45,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.common.util.concurrent.ListenableFuture;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.tensorflow.lite.DataType;
@@ -58,31 +61,43 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.HttpUrl;
+import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class CameraActivity extends AppCompatActivity {
     private ActivityCameraBinding binding;
 
-    private String seasonParam;
+    private String seasonParam, temperatureParam, soilResult, confidenceLevel;
     private Bitmap imageParam;
+    private byte[] byteArray;
     private int imageSize = 150;
 
     private Interpreter tflite;
 
+    public static final MediaType JSON
+            = MediaType.get("application/json; charset=utf-8");
+
     int cameraFacing = CameraSelector.LENS_FACING_BACK;
     private ImageCapture imageCapture;
-    OkHttpClient client = new OkHttpClient();
+    OkHttpClient client = new OkHttpClient.Builder()
+            .connectTimeout(30, TimeUnit.SECONDS) // Adjust the connection timeout as needed
+            .readTimeout(30, TimeUnit.SECONDS) // Adjust the read timeout as needed
+            .writeTimeout(30, TimeUnit.SECONDS) // Adjust the write timeout as needed
+            .build();
     private BottomSheetBehavior bottomSheetBehavior;
 
     private FusedLocationProviderClient fusedLocationProviderClient;
@@ -172,6 +187,15 @@ public class CameraActivity extends AppCompatActivity {
                 classifyImage(imageParam);
             }
         });
+
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                Intent i = new Intent(getApplicationContext(), HomeActivity.class);
+                startActivity(i);
+                finish();
+            }
+        });
     }
 
     private MappedByteBuffer loadModelFile() throws IOException {
@@ -218,8 +242,6 @@ public class CameraActivity extends AppCompatActivity {
         printTopLabel(labelProbList.get(0));
     }
 
-
-
     private class Result {
         int label;
         float confidence;
@@ -234,9 +256,106 @@ public class CameraActivity extends AppCompatActivity {
         String[] labelNames = {"Tanah Humus", "Tanah Vulkanik"};
         String topLabel = labelNames[result.label];
         float confidence = result.confidence;
-        showToast("Top Label: " + topLabel + ", Confidence: " + confidence);
+
+        // Konversi float menjadi persen
+        NumberFormat percentFormat = NumberFormat.getPercentInstance();
+        String confidencePercent = percentFormat.format(confidence);
+
+        soilResult = topLabel;
+        confidenceLevel = confidencePercent;
+        System.out.println("SoilResult: " + soilResult + ", Confidence: " + confidencePercent);
+        getFinalResult();
     }
 
+
+    private void getFinalResult() {
+        JSONObject jsonBody;
+
+        try {
+            jsonBody = new JSONObject();
+            jsonBody.put("model", "gpt-3.5-turbo");
+
+            JSONArray messageArray = new JSONArray();
+            String param = "Tanah: " + soilResult + ", Iklim: " + seasonParam + ", Suhu: " + temperatureParam;
+            JSONObject systemObject = new JSONObject();
+            systemObject.put("role", "system" );
+            systemObject.put("content", "You are a soil expert who has knowledge about soil because you are a professional in that field. You know and can provide recommendations for plants that are suitable for planting in a certain type of soil when someone asks you. With some info provided such as soil type, climate, and average temperature, you can provide plant recommendations based on that information. When answering, please only provide 5 types of plants that are suitable for planting in the ground with this information. Also give a brief explanation of the reason, a maximum of 20 words for each plant. Please note that the plant recommendations you provide must be plants that are suitable for planting in the territory of Indonesia. Then answer the results with Indonesian Language only. Don't answer with English. Are you ready to give accurate plant recommendations? Here is the information:" );
+            messageArray.put(systemObject);
+            JSONObject userInput = new JSONObject();
+            userInput.put("role", "user");
+            userInput.put("content", param);
+            messageArray.put(userInput);
+
+            jsonBody.put("messages", messageArray);
+            jsonBody.put("max_tokens", 500);
+            jsonBody.put("top_p", 1);
+            jsonBody.put("presence_penalty", 1);
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
+
+        RequestBody body = RequestBody.create(jsonBody.toString(), JSON);
+        Request request = new Request.Builder()
+                .url("https://api.openai.com/v1/chat/completions")
+                .header("Authorization", "Bearer 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")
+                .post(body)
+                .build();
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onResponse(@androidx.annotation.NonNull Call call, @androidx.annotation.NonNull Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    System.out.println("SUKSES");
+                    JSONObject jsonObject;
+                    try {
+                        assert response.body() != null;
+                        jsonObject = new JSONObject(response.body().string());
+                        JSONArray jsonArray = jsonObject.getJSONArray("choices");
+                        JSONObject responseMessage = jsonArray.getJSONObject(0).getJSONObject("message");
+                        String responseContent = responseMessage.getString("content");
+
+                        runOnUiThread(() -> {
+                            Intent i = new Intent(getApplicationContext(), AnalyzeResultActivity.class);
+                            Bundle bundle = new Bundle();
+                            bundle.putByteArray("imageResult", byteArray);
+                            bundle.putString("soilResult", soilResult);
+                            bundle.putString("seasonResult", seasonParam);
+                            bundle.putString("confidenceResult", confidenceLevel);
+                            bundle.putString("tempResult", temperatureParam);
+                            bundle.putString("recommendationResult", responseContent.trim());
+
+                            i.putExtras(bundle);
+                            startActivity(i);
+                            finish();
+                        });
+
+                    } catch (JSONException e) {
+                        throw new RuntimeException(e);
+                    }
+                } else {
+                    System.out.println("GAGAL 1");
+                    runOnUiThread(() -> {
+                        showToast("Gagal melakukan analisis");
+                        binding.loadingText.setVisibility(View.GONE);
+                        binding.loadingBackground.setVisibility(View.GONE);
+                        binding.progressBar.setVisibility(View.GONE);
+                    });
+                }
+            }
+
+            @Override
+            public void onFailure(@androidx.annotation.NonNull Call call, IOException e) {
+                System.out.println("GAGAL 2");
+                e.printStackTrace();
+                runOnUiThread(() -> {
+                    showToast("Gagal melakukan analisis");
+                    binding.loadingText.setVisibility(View.GONE);
+                    binding.loadingBackground.setVisibility(View.GONE);
+                    binding.progressBar.setVisibility(View.GONE);
+                });
+            }
+        });
+
+    }
 
     private final ActivityResultLauncher<Intent> pickImage = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
@@ -247,6 +366,21 @@ public class CameraActivity extends AppCompatActivity {
                         try {
                             InputStream inputStream = getContentResolver().openInputStream(imageUri);
                             Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+
+                            imageParam = Bitmap.createScaledBitmap(bitmap, imageSize, imageSize, false);
+
+                            int width = bitmap.getWidth();
+                            int height = bitmap.getHeight();
+                            int newDimension = Math.min(width, height);
+                            Bitmap squareBitmap = Bitmap.createBitmap(bitmap, (width - newDimension) / 2, (height - newDimension) / 2, newDimension, newDimension);
+
+                            int previewWidth = 1000;
+                            int previewHeight = squareBitmap.getHeight() * previewWidth / squareBitmap.getWidth();
+                            Bitmap croppedBitmap = Bitmap.createScaledBitmap(squareBitmap, previewWidth, previewHeight, false);
+
+                            ByteArrayOutputStream compressedOutputStream = new ByteArrayOutputStream();
+                            croppedBitmap.compress(Bitmap.CompressFormat.JPEG, 70, compressedOutputStream);
+                            byteArray = compressedOutputStream.toByteArray();
 
                             getLastLocation();
                             binding.capturePreview.setImageBitmap(bitmap);
@@ -260,7 +394,6 @@ public class CameraActivity extends AppCompatActivity {
                             bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
                             bottomSheetBehavior.setHideable(false);
                             bottomSheetBehavior.setPeekHeight(1000);
-//                            encodedImage = encodeImage(bitmap);
                         } catch (FileNotFoundException e) {
                             e.printStackTrace();
                         }
@@ -334,6 +467,7 @@ public class CameraActivity extends AppCompatActivity {
 
                 ByteArrayOutputStream compressedOutputStream = new ByteArrayOutputStream();
                 croppedBitmap.compress(Bitmap.CompressFormat.JPEG, 70, compressedOutputStream);
+                byteArray = compressedOutputStream.toByteArray();
 
                 runOnUiThread(() -> {
                     getLastLocation();
@@ -347,7 +481,8 @@ public class CameraActivity extends AppCompatActivity {
                     binding.designBottomSheet.startAnimation(anim);
                     bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
                     bottomSheetBehavior.setHideable(false);
-                    bottomSheetBehavior.setPeekHeight(1000);
+                    bottomSheetBehavior.setPeekHeight(1500);
+                    bottomSheetBehavior.setMaxHeight(2000);
                 });
 
             }
@@ -408,6 +543,7 @@ public class CameraActivity extends AppCompatActivity {
                                     List<Address> addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
                                     binding.inputKota.setText(addresses.get(0).getSubAdminArea());
                                     getWeather(addresses.get(0).getSubAdminArea());
+                                    System.out.println(addresses.get(0).getSubAdminArea());
                                 } catch (IOException e) {
                                     throw new RuntimeException(e);
                                 }
@@ -477,6 +613,8 @@ public class CameraActivity extends AppCompatActivity {
 
                             String formattedTemperature = String.format(Locale.US, "%.1f", temperatureCelcius);
                             binding.inputSuhu.setText(formattedTemperature);
+                            temperatureParam = formattedTemperature;
+                            System.out.println(formattedTemperature);
                         } catch (JSONException e) {
                             throw new RuntimeException(e);
                         }
