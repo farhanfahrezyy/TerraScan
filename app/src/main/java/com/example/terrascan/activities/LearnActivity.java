@@ -4,16 +4,16 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
-import com.example.terrascan.databinding.ActivitySavedBinding;
+import com.example.terrascan.databinding.ActivityLearnBinding;
 
-public class SavedActivity extends AppCompatActivity {
-    ActivitySavedBinding binding;
+public class LearnActivity extends AppCompatActivity {
 
+    private ActivityLearnBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivitySavedBinding.inflate(getLayoutInflater());
+        binding = ActivityLearnBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
     }
 }
