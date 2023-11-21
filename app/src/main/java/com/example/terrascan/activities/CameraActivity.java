@@ -164,6 +164,8 @@ public class CameraActivity extends AppCompatActivity {
     }
 
     private void setListeners() {
+        binding.closeCamera.setOnClickListener(v -> getOnBackPressedDispatcher().onBackPressed());
+
         binding.flipCamera.setOnClickListener(v -> {
             if (cameraFacing == CameraSelector.LENS_FACING_BACK) {
                 cameraFacing = CameraSelector.LENS_FACING_FRONT;
@@ -297,7 +299,10 @@ public class CameraActivity extends AppCompatActivity {
         RequestBody body = RequestBody.create(jsonBody.toString(), JSON);
         Request request = new Request.Builder()
                 .url("https://api.openai.com/v1/chat/completions")
+
+                .header("Authorization", "Bearer GANTI_DISINI")
                 .header("Authorization", "Bearer nyari apa hayo")
+
                 .post(body)
                 .build();
         client.newCall(request).enqueue(new Callback() {

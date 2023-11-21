@@ -51,6 +51,10 @@ public class ProfileActivity extends AppCompatActivity {
             startActivity(i);
         });
 
+        binding.scanButton.setOnClickListener(v -> {
+            startActivity(new Intent(getApplicationContext(), CameraActivity.class));
+        });
+
     }
 
     private void loadUserDetails() {

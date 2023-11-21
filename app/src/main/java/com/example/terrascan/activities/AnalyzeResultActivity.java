@@ -3,6 +3,7 @@ package com.example.terrascan.activities;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -26,6 +27,19 @@ public class AnalyzeResultActivity extends AppCompatActivity {
         bottomSheetBehavior = BottomSheetBehavior.from(binding.designBottomSheet);
 
         loadData();
+        setListeners();
+    }
+
+    private void setListeners() {
+        binding.saveButton.setOnClickListener(v -> {
+            binding.saveButton.setImageResource(R.drawable.ic_bookmark);
+        });
+
+        binding.homeButton.setOnClickListener(v -> {
+            Intent i = new Intent(getApplicationContext(), HomeActivity.class);
+            startActivity(i);
+            finish();
+        });
     }
 
     private void loadData() {
@@ -49,7 +63,8 @@ public class AnalyzeResultActivity extends AppCompatActivity {
             binding.climateResult.setText(seasonResult);
         }
 
-        binding.temperatureResult.setText(getIntent().getExtras().getString("tempResult"));
+        String tempResult = getIntent().getExtras().getString("tempResult") + "℃";
+        binding.temperatureResult.setText(tempResult);
 
         binding.recommendationResult.setText(getIntent().getExtras().getString("recommendationResult"));
 
