@@ -49,6 +49,10 @@ public class ProfileAdminActivity extends AppCompatActivity {
             Intent i = new Intent(getApplicationContext(), EditProfileActivity.class);
             startActivity(i);
         });
+
+        binding.scanButton.setOnClickListener(v -> {
+            startActivity(new Intent(getApplicationContext(), CameraActivity.class));
+        });
     }
 
     private void loadUserDetails() {

@@ -13,7 +13,7 @@ public class SavedActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivitySavedBinding.inflate(getLayoutInflater())
+        binding = ActivitySavedBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
     }
 }

@@ -84,6 +84,10 @@ public class ProductActivity extends AppCompatActivity {
                 binding.refreshLayout.setRefreshing(false);
             }
         });
+
+        binding.scanButton.setOnClickListener(v -> {
+            startActivity(new Intent(getApplicationContext(), CameraActivity.class));
+        });
     }
 
     private void getProduct() {

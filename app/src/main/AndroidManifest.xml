@@ -43,7 +43,7 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".RequestChangeProductActivity"
+            android:name=".activities.RequestChangeProductActivity"
             android:exported="false" />
         <activity
             android:name=".activities.ProductDetailActivity"
