@@ -297,7 +297,7 @@ public class CameraActivity extends AppCompatActivity {
         RequestBody body = RequestBody.create(jsonBody.toString(), JSON);
         Request request = new Request.Builder()
                 .url("https://api.openai.com/v1/chat/completions")
-                .header("Authorization", "Bearer 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")
+                .header("Authorization", "Bearer nyari apa hayo")
                 .post(body)
                 .build();
         client.newCall(request).enqueue(new Callback() {
