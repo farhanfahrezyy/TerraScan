@@ -39,7 +39,6 @@
         app:layout_constraintEnd_toEndOf="parent">
 
 
-
         <ImageView
             android:id="@+id/adminMail"
             android:layout_width="@dimen/_27sdp"

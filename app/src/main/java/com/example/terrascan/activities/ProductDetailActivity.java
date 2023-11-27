@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Base64;
 import android.view.View;
@@ -60,6 +61,8 @@ public class ProductDetailActivity extends AppCompatActivity {
     }
 
     private void setListeners() {
+        binding.layoutContact.setOnClickListener(v -> openWhatsApp());
+
         binding.backButton.setOnClickListener(v -> getOnBackPressedDispatcher().onBackPressed());
 
         binding.editProduct.setOnClickListener(v -> {
@@ -128,6 +131,18 @@ public class ProductDetailActivity extends AppCompatActivity {
                 .setNegativeButton("No", (dialog, id) -> dialog.dismiss());
         AlertDialog dialog = builder.create();
         dialog.show();
+    }
+
+    private void openWhatsApp() {
+        String phoneNumber = getIntent().getExtras().getString("sellerPhoneNumber");
+
+        String message = "Halo, saya tertarik dengan produk " + getIntent().getExtras().getString("productName") + ". Apakah produk ini tersedia?";
+
+        String url = "https://wa.me/" + phoneNumber + "?text=" + Uri.encode(message);
+
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(Uri.parse(url));
+        startActivity(intent);
     }
 
     private void showToast(String message) {
