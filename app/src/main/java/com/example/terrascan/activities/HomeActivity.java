@@ -82,6 +82,14 @@ public class HomeActivity extends AppCompatActivity {
         binding.learn.setOnClickListener(v ->
                 startActivity(new Intent(getApplicationContext(), LearnActivity.class)));
 
+        binding.image1.setOnClickListener(v ->
+                startActivity(new Intent(getApplicationContext(), ProductActivity.class)));
+
+        binding.image2.setOnClickListener(v ->
+                startActivity(new Intent(getApplicationContext(), ProductActivity.class)));
+
+        binding.image3.setOnClickListener(v ->
+                startActivity(new Intent(getApplicationContext(), ProductActivity.class)));
 
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
             @Override
