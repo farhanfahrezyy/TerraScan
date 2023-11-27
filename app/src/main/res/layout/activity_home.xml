@@ -397,7 +397,7 @@
             android:layout_width="@dimen/_50sdp"
             android:layout_height="@dimen/_50sdp"
             android:layout_marginEnd="@dimen/_35sdp"
-            android:src="@drawable/ic_profile"
+            android:src="@drawable/ic_profile_off"
             android:background="?attr/selectableItemBackgroundBorderless"
             app:tint="@color/primary_90"
             android:layout_alignParentEnd="true"
