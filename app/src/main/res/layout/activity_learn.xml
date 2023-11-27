@@ -45,9 +45,11 @@
         app:layout_constraintTop_toBottomOf="@+id/header">
 
         <TextView
+            android:id="@+id/headerr"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginStart="@dimen/_10sdp"
             android:text="Belajar tentang tanah"
             android:textSize="@dimen/_20sdp"
             android:textStyle="bold"
@@ -57,56 +59,139 @@
 
     </RelativeLayout>
 
-    <RelativeLayout
-        android:id="@+id/data1"
+    <LinearLayout
+        android:id="@+id/humuslayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_12sdp"
+        android:layout_marginBottom="@dimen/_12sdp"
+        android:layout_marginStart="@dimen/_6sdp"
+        android:layout_marginEnd="@dimen/_6sdp"
         app:layout_constraintTop_toBottomOf="@+id/titlelearn"
-        android:layout_margin="@dimen/_20sdp">
+        android:orientation="vertical"
+        android:background="@drawable/bg_saved_scan"
+        android:elevation="@dimen/_5sdp">
 
-        <ImageView
-            android:id="@id/learn"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_5sdp"
-            android:layout_marginTop="@dimen/_5sdp"
-            android:layout_marginEnd="@dimen/_5sdp"
-            android:layout_marginBottom="@dimen/_5sdp"
-            android:src="@drawable/terrascan_logo" />
+            android:layout_height="wrap_content">
 
-        <ImageView
-            android:id="@+id/learn1"
+            <TextView
+                android:id="@+id/LearnTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_6sdp"
+                android:layout_marginStart="@dimen/_16sdp"
+                android:text="Tanah Humus"
+                android:textSize="@dimen/_20ssp"
+                android:textColor="@color/black"
+                android:textStyle="bold"/>
+
+
+
+        </RelativeLayout>
+
+
+
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/learnImage"
+                android:layout_width="@dimen/_100sdp"
+                android:layout_height="@dimen/_100sdp"
+                android:src="@drawable/ic_launcher_background"
+                android:layout_marginTop="@dimen/_7sdp"
+                android:layout_marginBottom="@dimen/_25sdp"
+                android:layout_marginHorizontal="@dimen/_16sdp"/>
+
+            <TextView
+                android:id="@+id/texthumus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top"
+                android:layout_marginTop="@dimen/_7sdp"
+                android:layout_marginRight="10dp"
+                android:text="satu"
+
+                />
+
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/learnvulkanik"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_12sdp"
+        android:layout_marginBottom="@dimen/_12sdp"
+        android:layout_marginStart="@dimen/_6sdp"
+        android:layout_marginEnd="@dimen/_6sdp"
+        app:layout_constraintTop_toBottomOf="@+id/humuslayout"
+        android:orientation="vertical"
+        android:background="@drawable/bg_saved_scan"
+        android:elevation="@dimen/_5sdp">
+
+        <RelativeLayout
             android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/vulkaniktittle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_6sdp"
+                android:layout_marginStart="@dimen/_16sdp"
+                android:text="Tanah Vulkanik"
+                android:textSize="@dimen/_20ssp"
+                android:textColor="@color/black"
+                android:textStyle="bold"/>
+
+
+
+        </RelativeLayout>
+
+
+
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/learn"
-            android:layout_marginStart="@dimen/_5sdp"
-            android:layout_marginTop="@dimen/_18sdp"
-            android:layout_marginEnd="@dimen/_5sdp"
-            android:layout_marginBottom="@dimen/_5sdp"
-            android:src="@drawable/terrascan_logo" />
+            android:orientation="horizontal">
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/learn1"
-            android:layout_marginStart="@dimen/_5sdp"
-            android:layout_marginTop="@dimen/_18sdp"
-            android:layout_marginEnd="@dimen/_5sdp"
-            android:layout_marginBottom="@dimen/_5sdp"
-            android:src="@drawable/terrascan_logo" />
+            <ImageView
+                android:id="@+id/learnImage2"
+                android:layout_width="@dimen/_100sdp"
+                android:layout_height="@dimen/_100sdp"
+                android:src="@drawable/ic_launcher_background"
+                android:layout_marginTop="@dimen/_7sdp"
+                android:layout_marginBottom="@dimen/_25sdp"
+                android:layout_marginHorizontal="@dimen/_16sdp"/>
 
+            <TextView
+                android:id="@+id/vulkaniktext"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top"
+                android:layout_marginTop="@dimen/_7sdp"
+                android:layout_marginRight="10dp"
+                android:text="satu"
 
-    </RelativeLayout>
-
-
-
-
+                />
 
 
 
+        </LinearLayout>
 
-
-
+    </LinearLayout>
 
 
 
