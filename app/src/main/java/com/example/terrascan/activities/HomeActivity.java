@@ -47,8 +47,9 @@ public class HomeActivity extends AppCompatActivity {
     private void imageSlider() {
         List<SlideModel> slideModels = new ArrayList<>();
         slideModels.add(new SlideModel(R.drawable.slider5, null, ScaleTypes.FIT));
-        slideModels.add(new SlideModel(R.drawable.slider5, null, ScaleTypes.FIT));
-        slideModels.add(new SlideModel(R.drawable.slider5, null,ScaleTypes.FIT));
+        slideModels.add(new SlideModel(R.drawable.slider11, null, ScaleTypes.FIT));
+        slideModels.add(new SlideModel(R.drawable.slider12, null,ScaleTypes.FIT));
+        slideModels.add(new SlideModel(R.drawable.slider13, null,ScaleTypes.FIT));
 
         binding.imageSlider.setImageList(slideModels);
     }
